@@ -1,0 +1,4 @@
+interface:
+  display_name: "中国公共单位待遇研究"
+  short_description: "搜索公开报告并按专业经验核算中国公共单位人员待遇水平"
+  default_prompt: "Use $china-public-sector-compensation to research this unit and calculate its compensation from traceable reports."

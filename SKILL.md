@@ -1,0 +1,72 @@
+---
+name: china-public-sector-compensation
+description: Research a named Chinese public-sector institution, exhaust official reports and staffing sources, and calculate compensation step by step using the specified expert methodology. Use when the user asks about a unit's 工资、待遇、人均工资福利、普通员工收入 or salary structure; report 搜不到 when the required real data cannot be found.
+---
+
+# China Public-Sector Compensation
+
+Given only a unit name, independently identify the unit, search the available reports, reconcile the data scope, and calculate its compensation. Use real source figures and the expert rules in this skill. Do not substitute a different salary model.
+
+## Non-Negotiable Rules
+
+1. Use the expert procedure in [references/expert-method.md](references/expert-method.md) step by step. The `2/3`, `1/2`, and salary-structure ratio rules are part of the requested method, not optional commentary.
+2. Every input number must be traceable to a source. Never invent a missing amount, headcount, year, unit, or institutional classification.
+3. Match the numerator and denominator before dividing. Confirm entity scope, reporting year, budget versus final account, amount unit, personnel category, and whether the document is department-wide or unit-level.
+4. If a required real figure cannot be found after completing the search checklist, say `搜不到` and identify the missing field. Do not fill the gap with a generic industry average.
+5. Distinguish sourced inputs from calculated results. The expert conversion is the calculation method; the amounts and headcounts must still come from real documents.
+6. Prefer final accounts (`决算`) to budgets (`预算`). If only a budget exists, calculate from it but label the result as a budget estimate.
+7. Open and inspect the actual report or attachment. Search-result snippets and reposted tables are leads, not sufficient evidence by themselves.
+
+## Workflow
+
+### 1. Resolve the Entity
+
+- Establish the full official name, aliases or former names, supervising department, region, institution type, and whether the target is a unit, a department, or a subordinate body.
+- When names collide, use official addresses, duties, organization codes, and supervising relationships to disambiguate.
+- Classify the unit into the closest expert route: local public institution, ministry-affiliated public-welfare class I, public-welfare class II or other mixed-staff institution, or enterprise-managed public body.
+
+### 2. Search Exhaustively
+
+Read [references/source-playbook.md](references/source-playbook.md) and complete its source and query checklist. Search the newest usable final account first, then adjacent years and supplementary staffing records. Follow attachment links, inspect spreadsheets, and OCR scanned PDFs when needed.
+
+Maintain a search log with the query, channel, result, document year, and reason a source was accepted or rejected. `Exhaustive` means every relevant channel and query family in the playbook was attempted, not that the search runs without a stopping condition.
+
+### 3. Build the Evidence Ledger
+
+For every number record:
+
+- source title and direct URL;
+- publisher and publication date;
+- reporting year;
+- page, table, row, or section;
+- original label and value;
+- original amount unit;
+- entity and personnel scope;
+- whether it is budgeted or realized.
+
+Do not combine values across years or scopes unless the document explicitly makes them comparable. If a report is consolidated, do not divide it by the headcount of only one subordinate unit.
+
+### 4. Apply the Expert Route
+
+Use the route selected in step 1 and calculate in the order given in [references/expert-method.md](references/expert-method.md):
+
+- local units: wage components divided by staff count, special awards handled separately, then ordinary staff estimated at `2/3` of the comparable average;
+- public-welfare class I: find registered or annual-report headcount and divide the matched wage total directly;
+- public-welfare class II or mixed-staff units: calculate the bonus/performance/allowance-to-basic-wage ratio; interpret `>= 4` as good, `< 3` as poor, and use provident-fund and occupational-annuity ratios for the remaining judgment;
+- enterprise-managed public bodies: total wage amount divided by the matched total headcount, then ordinary staff estimated at about `1/2` of the average.
+
+Use `scripts/calculate_compensation.py` for arithmetic when the inputs fit its schema. Keep the source evidence beside the script output.
+
+### 5. Cross-Check
+
+- Recalculate all unit conversions, especially `元`, `万元`, and `亿元`.
+- Compare at least two adjacent years when available and investigate abrupt changes.
+- Check whether `301 工资福利支出` contains employer social-insurance, housing-fund, occupational-annuity, medical, or one-off items.
+- Check whether labor dispatch, externally hired staff, retirees, or subordinate units are included in either side of the division.
+- Use official recruitment materials and credible employee disclosures as consistency checks, while keeping their evidentiary role explicit.
+
+### 6. Report
+
+Follow [references/output-template.md](references/output-template.md). Lead with the result, show the author's calculation line by line, provide direct citations for every input, and state the exact data scope.
+
+If a result cannot be calculated, still provide the entity resolution, sources searched, figures found, and the specific missing or incompatible field, ending the conclusion with `搜不到，无法按该方法计算`.
