@@ -66,6 +66,28 @@ class CalculationTests(unittest.TestCase):
                 }
             )
 
+    def test_accepts_missing_special_awards_as_empty(self):
+        result = MODULE.calculate(
+            {
+                "mode": "headcount",
+                "route": "local_public_institution",
+                "comparable_wage_components_wanyuan": [100],
+                "headcount": 10,
+                "special_awards_wanyuan": None,
+            }
+        )
+        self.assertEqual(result["special_awards_total_wanyuan"], "0.0000")
+
+    def test_rejects_non_finite_numbers(self):
+        with self.assertRaisesRegex(ValueError, "finite"):
+            MODULE.calculate(
+                {
+                    "mode": "structure",
+                    "basic_wage_wanyuan": "NaN",
+                    "bonus_performance_allowance_wanyuan": [1],
+                }
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

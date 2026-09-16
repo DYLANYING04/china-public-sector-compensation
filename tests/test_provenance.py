@@ -87,6 +87,12 @@ class ProvenanceValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "must be true"):
             validate_provenance(data)
 
+    def test_source_requires_publication_date(self):
+        data = valid_input()
+        del data["provenance"]["amount_source"]["publication_date"]
+        with self.assertRaisesRegex(ValueError, "publication_date"):
+            validate_provenance(data)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -7,6 +7,17 @@ description: Research a named Chinese public-sector institution, exhaust officia
 
 Given only a unit name, independently identify the unit, search the available reports, reconcile the data scope, and calculate its compensation. Use real source figures and the expert rules in this skill. Do not substitute a different salary model.
 
+## Zero-Setup User Path
+
+The user should be able to send only `研究：单位全称的待遇` and receive a result. Do not ask the user to prepare links, JSON, source files, route labels, or accounting codes.
+
+- If no year is supplied, start with the latest completed fiscal year available as of today; if that final account is not published, step back to the newest usable final account and label the year explicitly.
+- If the name maps to one clear official entity, proceed without a confirmation question. If it maps to multiple entities, ask one concise question listing the ambiguous candidates.
+- If the user gives a city, alias, former name, supervisor, or unit type, use it as a search constraint but do not require any other setup.
+- Choose the expert route from the evidence. Never ask the user to choose route A/B/C/D unless the official evidence genuinely leaves two incompatible entities.
+- Never block the first result only because headcount is missing: return a sourced `STRUCTURE_ONLY` judgment, list the missing field, and continue the headcount search when useful.
+- Put a three-line quick result first: `单位/年度`, `证据状态`, and `结论或搜不到原因`. Put the audit trail and detailed calculation below it.
+
 ## Non-Negotiable Rules
 
 1. Use the expert procedure in [references/expert-method.md](references/expert-method.md) step by step. The `2/3`, `1/2`, and salary-structure ratio rules are part of the requested method, not optional commentary.
@@ -30,6 +41,8 @@ Given only a unit name, independently identify the unit, search the available re
 Read [references/source-playbook.md](references/source-playbook.md) and complete its source and query checklist. For local units, also read [references/city-coverage-patterns.md](references/city-coverage-patterns.md). Search the newest usable final account first, then adjacent years and supplementary staffing records. Follow attachment links, inspect spreadsheets and archives, and OCR scanned PDFs when needed.
 
 Maintain a search log with the query, channel, result, document year, and reason a source was accepted or rejected. `Exhaustive` means every relevant channel and query family in the playbook was attempted, not that the search runs without a stopping condition.
+
+For a no-year request, treat “latest completed fiscal year” as a search default, not as permission to silently mix a budget and a final account. State the chosen year before calculating.
 
 Run the amount search and headcount search in parallel. As soon as the exact unit's public `公开06表` or equivalent breakdown is available, calculate the expert wage-structure multiple. Continue searching for matched headcount; do not delay the structure result until all personnel channels have failed.
 

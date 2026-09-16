@@ -2,6 +2,18 @@
 
 Use concise Chinese. Preserve this information structure, while adapting headings to the case.
 
+## 快速结论
+
+Put this block before all tables and detail:
+
+```text
+单位/年度：
+证据状态：FULL / STRUCTURE_ONLY / BUDGET_ONLY / NO_USABLE_DATA
+结论：
+```
+
+If the result is incomplete, name the exact missing field in the third line. Do not make the reader search the calculation section to learn whether the amount is a final account, a budget estimate, or a structure-only judgment.
+
 ## 结论
 
 - 单位：full official name

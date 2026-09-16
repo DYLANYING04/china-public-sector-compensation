@@ -19,6 +19,7 @@ REQUIRED_SOURCE_FIELDS = {
     "title",
     "url",
     "publisher",
+    "publication_date",
     "retrieved_date",
     "locator",
     "year",
@@ -31,6 +32,8 @@ def number(value: Any, field: str) -> Decimal:
         result = Decimal(str(value))
     except (InvalidOperation, ValueError) as exc:
         raise ValueError(f"{field} must be numeric") from exc
+    if not result.is_finite():
+        raise ValueError(f"{field} must be a finite number")
     if result < 0:
         raise ValueError(f"{field} must not be negative")
     return result
@@ -136,10 +139,15 @@ def calculate_headcount(data: dict[str, Any]) -> dict[str, Any]:
         "comparable_wage_components_wanyuan",
     )
     headcount = positive_number(data.get("headcount"), "headcount")
+    special_award_values = data.get("special_awards_wanyuan", [])
+    if special_award_values is None:
+        special_award_values = []
+    if not isinstance(special_award_values, list):
+        raise ValueError("special_awards_wanyuan must be a list")
     special_awards = sum(
         (
             number(value, "special_awards_wanyuan")
-            for value in data.get("special_awards_wanyuan", [])
+            for value in special_award_values
         ),
         Decimal(0),
     )
