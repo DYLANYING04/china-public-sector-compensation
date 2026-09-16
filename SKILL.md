@@ -1,9 +1,9 @@
 ---
 name: china-public-sector-compensation
-description: Research a named Chinese public-sector institution, exhaust official reports and staffing sources, and calculate compensation step by step using the specified expert methodology. Use when the user asks about a unit's 工资、待遇、人均工资福利、普通员工收入 or salary structure; report 搜不到 when the required real data cannot be found.
+description: Research a named Chinese enterprise or public-sector institution, exhaust official reports and staffing sources, and calculate compensation step by step using the specified expert methodology. Use when the user asks about a unit's 工资、待遇、人均工资福利、普通员工收入 or salary structure; report 搜不到 when the required real data cannot be found.
 ---
 
-# China Public-Sector Compensation
+# China Enterprise and Public-Institution Compensation
 
 Given only a unit name, independently identify the unit, search the available reports, reconcile the data scope, and calculate its compensation. Use real source figures and the expert rules in this skill. Do not substitute a different salary model.
 

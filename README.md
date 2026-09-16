@@ -1,8 +1,8 @@
-# 中国公共单位待遇研究
+# 中国企事业单位待遇研究
 
 [English README](README.en.md)
 
-这是一个用于 Codex 的研究 skill：给出一家中国公共单位的名称，它会搜索公开预算、决算、人员编制、年度报告、绩效报告及相关附件，按图片作者提供的经验逐步核算待遇。
+这是一个用于 Codex 的研究 skill：给出一家中国企事业单位的名称，它会搜索公开预算、决算、人员编制、年度报告、绩效报告及相关附件，按图片作者提供的经验逐步核算待遇。
 
 公开仓库：<https://github.com/DYLANYING04/china-public-sector-compensation>
 

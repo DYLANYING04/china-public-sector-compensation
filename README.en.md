@@ -1,8 +1,8 @@
-# China Public-Sector Compensation Research
+# China Enterprise and Public-Institution Compensation Research
 
 [中文说明](README.md)
 
-This repository contains a Codex skill for researching compensation at Chinese public institutions. Give it the name of an institution, and it searches public budgets, final accounts, staffing disclosures, annual reports, performance reports, and official attachments before calculating compensation step by step with the expert method supplied by the user.
+This repository contains a Codex skill for researching compensation at Chinese enterprises and public institutions. Give it the name of an organization, and it searches public budgets, final accounts, staffing disclosures, annual reports, performance reports, and official attachments before calculating compensation step by step with the expert method supplied by the user.
 
 Repository: <https://github.com/DYLANYING04/china-public-sector-compensation>
 
