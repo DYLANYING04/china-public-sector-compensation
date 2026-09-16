@@ -29,21 +29,28 @@ class LaunchPackTests(unittest.TestCase):
         self.assertEqual(
             Counter(case["state"] for case in cases),
             Counter({
-                "FULL": 1,
-                "STRUCTURE_ONLY": 25,
+                "FULL": 2,
+                "STRUCTURE_ONLY": 24,
                 "BUDGET_ONLY": 2,
                 "NO_USABLE_DATA": 2,
             }),
         )
         self.assertEqual(sum(case["usable_wage_breakdown"] for case in cases), 28)
 
+        beijing = next(case for case in cases if case["name"] == "北京市投资促进服务中心（本级）")
+        self.assertEqual(beijing["year"], 2022)
+        self.assertEqual(beijing["state"], "FULL")
+
     def test_launch_assets_are_nonblank_and_fixed_size(self):
         launch = ROOT / "assets" / "launch-preview.png"
         case_card = ROOT / "assets" / "yangling-case-card.png"
+        beijing_card = ROOT / "assets" / "beijing-investment-center-case-card.png"
         self.assertGreater(launch.stat().st_size, 10_000)
         self.assertGreater(case_card.stat().st_size, 10_000)
+        self.assertGreater(beijing_card.stat().st_size, 10_000)
         self.assertEqual(png_dimensions(launch), (1280, 640))
         self.assertEqual(png_dimensions(case_card), (1200, 630))
+        self.assertEqual(png_dimensions(beijing_card), (1200, 630))
 
     def test_community_health_documents_exist(self):
         for path in (

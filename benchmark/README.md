@@ -13,8 +13,8 @@ Checked: 2026-09-16. Source records and outcomes are in [cases.json](cases.json)
 | Inputs | 30 |
 | Official landing page or attachment found | 30 / 30 (100.0%) |
 | Usable wage breakdown found | 28 / 30 (93.3%) |
-| `FULL` | 1 / 30 (3.3%) |
-| `STRUCTURE_ONLY` | 25 / 30 (83.3%) |
+| `FULL` | 2 / 30 (6.7%) |
+| `STRUCTURE_ONLY` | 24 / 30 (80.0%) |
 | `BUDGET_ONLY` | 2 / 30 (6.7%) |
 | `NO_USABLE_DATA` | 2 / 30 (6.7%) |
 | Accepted cross-scope divisions | 0 |

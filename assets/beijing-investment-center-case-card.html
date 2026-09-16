@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>北京市投资促进服务中心 2022 结果卡</title>
+  <style>
+    :root { --ink: #20252b; --paper: #f5f3ed; --blue: #1479b8; --red: #c85a3f; --green: #277b63; --line: #cad3d6; }
+    * { box-sizing: border-box; }
+    body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: var(--paper); color: var(--ink); font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; }
+    main { height: 100%; padding: 50px 62px; }
+    header { display: flex; justify-content: space-between; align-items: start; border-bottom: 2px solid var(--ink); padding-bottom: 22px; }
+    .title { font-size: 35px; font-weight: 800; line-height: 1.2; }
+    .sub { margin-top: 9px; color: #65727b; font-size: 18px; }
+    .state { padding: 9px 13px; background: #dcefe8; color: var(--green); font-weight: 800; border-radius: 5px; }
+    .grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: 46px; padding-top: 32px; }
+    .amount-label { color: #65727b; font-size: 19px; }
+    .amount { margin: 8px 0 10px; color: var(--red); font-size: 59px; font-weight: 800; line-height: 1; }
+    .month { font-size: 21px; }
+    .caveat { margin-top: 26px; font-size: 16px; line-height: 1.5; color: #59636b; }
+    .formula { background: #fff; border: 1px solid var(--line); border-radius: 7px; padding: 24px; font-family: Consolas, "Microsoft YaHei", monospace; font-size: 18px; line-height: 1.65; }
+    .foot { margin-top: 16px; color: #65727b; font-size: 14px; line-height: 1.45; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <div class="title">北京市投资促进服务中心（本级）· 2022</div>
+        <div class="sub">公开来源：单位决算 C07 + 88 个事业编制</div>
+      </div>
+      <div class="state">FULL</div>
+    </header>
+    <section class="grid">
+      <div>
+        <div class="amount-label">作者方法下普通员工年度等效估算</div>
+        <div class="amount">17.1823 万</div>
+        <div class="month">约 14,318.62 元/月</div>
+        <div class="caveat">财政口径年度/月度等效值，不是税后或到手工资。奖金 196.6820 万元另列为“专家判断：招商引资任务完成奖”。</div>
+      </div>
+      <div>
+        <div class="formula">可比工资 = 503.2354 + 1764.8336<br>= 2268.0690 万元<br><br>单位人均 = 2268.0690 / 88 = 25.7735 万元<br>普通员工 = 25.7735 × 2/3 = 17.1823 万元<br><br>专家判断奖项 = 196.6820 万元（非来源明示）</div>
+        <div class="foot">来源、分母敏感性和口径说明：github.com/DYLANYING04/china-public-sector-compensation</div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

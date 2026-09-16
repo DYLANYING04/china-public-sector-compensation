@@ -39,9 +39,10 @@ The result starts with the institution/year, evidence state, and conclusion or m
 ## Reproducible Cases
 
 - [Yangling Party School 2024](cases/yangling-party-school-2024.md): `FULL`; same-year staff and wage rows match, with an ordinary-employee annual equivalent of `11.5424 万元`.
+- [Beijing Investment Promotion Service Center (unit-level) 2022](cases/beijing-investment-center-2022.md): `FULL`; reproduces the article's `503 + 1764`, 88-person denominator, and separately judged `196` award, yielding `17.1823 万元` for the ordinary-employee annual equivalent.
 - [Nanjing Youan Hospital 2024](cases/nanjing-youan-hospital-2024.md): `STRUCTURE_ONLY`; demonstrates why a blank bonus cell and unmatched headcount must not be forced into a result.
 - [Mohe Media Center 2024](cases/mohe-media-center-2024.md): a remote county portal, a `1.1861` structure multiple, and a scope-safe refusal to divide by an old denominator.
-- [Beijing Investment Promotion Service Center 2024](cases/beijing-investment-center-2024.md): a Beijing municipal example showing why a unit final account must not be divided by department-wide staff.
+- [Beijing Investment Promotion Service Center 2024](cases/beijing-investment-center-2024.md): a later-year boundary case showing why a unit final account must not be divided by department-wide staff when the matching unit headcount is not retained.
 
 The launch [benchmark of 30 public-source inputs](benchmark/README.md) found usable wage breakdowns for `28/30`, but only `1/30` met the strict per-person `FULL` standard. That conservatism is intentional: `STRUCTURE_ONLY` or `搜不到` is preferable to a cross-scope quotient.
 

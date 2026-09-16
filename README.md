@@ -39,6 +39,7 @@ git clone https://github.com/DYLANYING04/china-public-sector-compensation.git "$
 ## 可复核的真实案例
 
 - [杨凌示范区工委党校 2024](cases/yangling-party-school-2024.md)：`FULL`，同年实有人数与工资项目匹配，普通员工年度等效估算为 `11.5424 万元`。
+- [北京市投资促进服务中心（本级）2022](cases/beijing-investment-center-2022.md)：`FULL`，复现文章中的 `503 + 1764`、88 人和 `196` 专项奖判断，普通员工年度等效估算为 `17.1823 万元`。
 - [南京市佑安医院 2024](cases/nanjing-youan-hospital-2024.md)：`STRUCTURE_ONLY`，展示医院表格中奖金空白且人数不匹配时为何不能硬算。
 - [漠河市融媒体中心 2024](cases/mohe-media-center-2024.md)：偏远县级门户，结构倍数 `1.1861`，并拒绝用旧口径人数相除。
 - [北京市投资促进服务中心（本级）2024](cases/beijing-investment-center-2024.md)：展示北京单位决算本级与部门人数不匹配时的拒算边界。

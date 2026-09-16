@@ -49,6 +49,35 @@ class CalculationTests(unittest.TestCase):
         self.assertFalse(result["used_legacy_component_list"])
         self.assertEqual(result["route"], "local_two_thirds")
 
+    def test_beijing_investment_center_article_case_uses_88_establishment_denominator(self):
+        result = MODULE.calculate(
+            {
+                "mode": "headcount",
+                "route": "local_two_thirds",
+                "wage_components_wanyuan": {
+                    "基本工资": "503.2354",
+                    "津贴补贴": "1764.8336",
+                },
+                "expert_inferred_special_awards_wanyuan": {
+                    "招商引资任务完成奖": {
+                        "amount": "196.6820",
+                        "basis": "单位职责为招商引资；奖金独立列示；作者判断其为任务完成奖",
+                        "source_locator": "2022年单位决算C07工资福利支出奖金行",
+                        "confidence": "medium",
+                    }
+                },
+                "headcount": 88,
+            }
+        )
+        self.assertEqual(result["comparable_total_wanyuan"], "2268.0690")
+        self.assertEqual(result["organization_average_wanyuan_per_person_year"], "25.7735")
+        self.assertEqual(result["ordinary_estimate_wanyuan_per_year"], "17.1823")
+        self.assertEqual(result["ordinary_estimate_yuan_per_month"], "14318.62")
+        self.assertEqual(
+            result["expert_inferred_special_awards_wanyuan"]["招商引资任务完成奖"]["amount_wanyuan"],
+            "196.6820",
+        )
+
     def test_enterprise_managed_example(self):
         result = MODULE.calculate(
             {
