@@ -70,6 +70,7 @@ Use `scripts/calculate_compensation.py` for arithmetic when the inputs fit its s
 
 - Recalculate all unit conversions, especially `元`, `万元`, and `亿元`.
 - Compare at least two adjacent years when available and investigate abrupt changes.
+- When the report is a department or center consolidation, read its listed budget-unit scope and personnel section before accepting any headcount. A center-only figure from a different year cannot denominator-match a consolidated report.
 - Check whether `301 工资福利支出` contains employer social-insurance, housing-fund, occupational-annuity, medical, or one-off items.
 - Check whether labor dispatch, externally hired staff, retirees, or subordinate units are included in either side of the division.
 - Use official recruitment materials and credible employee disclosures as consistency checks, while keeping their evidentiary role explicit.

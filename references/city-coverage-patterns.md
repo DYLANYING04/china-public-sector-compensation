@@ -82,6 +82,24 @@ Therefore search for headcount independently, but calculate the structure multip
 - Search engines may surface scraped or deceptive copies of an official page. Prefer the government landing page and its own attachment.
 - PDF metadata or extracted titles can be generic or misleading. Verify the internal unit name, fiscal year, table name, and amount unit.
 
+## Edge-Case Patterns
+
+### County and Remote-Area Media Units
+
+Small counties may publish a long department index with hundreds of image-like attachment links. An exact unit can still have a usable `公开06表`, but the department report may consolidate the center and subordinate transmitters. For example, the 2024 Mohe Media Center decision includes the center plus two secondary budget units, while an older center-only budget states a different scope and headcount. Never divide the consolidated 2024 amount by the older center-only headcount.
+
+### Special Administrative Zones
+
+Development zones and special agricultural or high-tech zones often publish through a zone-wide legal-disclosure index rather than a normal city or county finance portal. Yangling's 2024 index leads to a unit landing page with both a PDF narrative and an XLSX table. Browser preview can fail on both formats even though direct downloads are valid; retain the landing page and parse the files locally.
+
+### Central Vertical Systems
+
+Central subordinate institutions may be enumerated on a ministry or bureau batch page while each unit's own subdomain hosts the report. The China Geological Survey batch page lists dozens of exact units, including Xi'an, Shenyang, Mudanjiang, and Urumqi centers. A 502, timeout, or inaccessible subdomain is an access barrier to record, not proof that the unit has no report. Continue through the batch page, direct attachment URL, archived search result, and adjacent-year official pages before reporting `搜不到`.
+
+### Province-Specific JavaScript Disclosure Portals
+
+Some provincial finance platforms expose a normal HTML announcement but send the actual unit report to a JavaScript-only budget application. Hubei's culture-and-tourism page links the Hubei Finance platform for exact unit decision directories, including the Hubei Academy of Fine Arts. Treat the JavaScript portal as a distinct transport route: inspect the linked page in a browser-capable tool or recover its API/attachment links; do not replace the unit with the supervising department's consolidated report.
+
 ## Coverage Outcome
 
 Forward testing across Beijing, Shanghai, Shenzhen, Guangzhou, Nanjing, Wuhan, Hangzhou, Xi'an, Hefei, Yantai, Zibo, Shantou, and Luoyang found a usable exact-unit wage breakdown in most tested cases. Matched current-year headcount was much less consistently public. The robust default is therefore:
@@ -90,3 +108,5 @@ Forward testing across Beijing, Shanghai, Shenzhen, Guangzhou, Nanjing, Wuhan, H
 2. continue the personnel cascade for a full per-person calculation;
 3. use a budget estimate only when no final account is available;
 4. state `搜不到` only after portal, supervisor, unit, attachment, registration, performance, and adjacent-year checks are logged.
+
+5. For a department that lists subordinate units, read the report's `部门决算编制范围` and `部门人员情况` before choosing a denominator. A prior-year or center-only personnel figure is not a matched denominator.

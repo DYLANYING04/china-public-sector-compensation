@@ -74,6 +74,9 @@ Run queries with the full name, current alias, former name, and supervising depa
 - `"单位全称" 小红书 OR 知乎 OR 微博 待遇`
 - `"主管部门全称" 年度 所属单位决算`
 - `"城市名" 年度 市级部门决算公开`
+- `"开发区/示范区全称" 年度 部门决算`
+- `"单位全称" "单位决算信息公开目录"`
+- `"单位全称" "事业单位法人年度报告"`
 - `"单位全称" "公开06表"`
 - `site:official-domain "单位全称" filetype:pdf`
 - `site:official-domain "单位全称" filetype:xls OR filetype:xlsx`
@@ -92,6 +95,7 @@ Repeat for the newest final-account year and at least two preceding years when a
 - Inspect table headers for `金额单位` and footnotes for scope.
 - Record the direct report URL and the landing-page URL when both exist.
 - If a portal requires a CAPTCHA or login, record the access barrier and continue through the unit, supervisor, finance, audit, and archived official channels.
+- If a linked provincial or zone finance portal is JavaScript-only, record the landing page and use a browser-capable tool or recover the underlying API/attachment URLs. A JavaScript rendering failure is an access barrier, not `搜不到`.
 - Reject search-result clones and scraped copies when the same document exists on an official government or unit domain. Domain appearance and page title are not enough; verify the publisher, site identity, and attachment origin.
 
 ## Scope Checklist
@@ -102,6 +106,7 @@ Before accepting a number, answer all of these:
 - Is it the same legal entity as the requested unit?
 - Is the figure a budget, adjusted budget, or final account?
 - What fiscal year does it cover?
+- Does the report explicitly include subordinate or secondary budget units?
 - Is the amount in yuan, ten-thousand yuan, or hundred-million yuan?
 - Does the numerator cover establishment staff, all employees, dispatched labor, retirees, or subordinate units?
 - Is the headcount sanctioned establishment, actual year-end staff, average staff, or total employees?
