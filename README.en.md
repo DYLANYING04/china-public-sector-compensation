@@ -1,0 +1,140 @@
+# China Public-Sector Compensation Research
+
+[中文说明](README.md)
+
+This repository contains a Codex skill for researching compensation at Chinese public institutions. Give it the name of an institution, and it searches public budgets, final accounts, staffing disclosures, annual reports, performance reports, and official attachments before calculating compensation step by step with the expert method supplied by the user.
+
+Repository: <https://github.com/DYLANYING04/china-public-sector-compensation>
+
+## Simplest Usage
+
+You do not need to prepare links, spreadsheets, JSON, or choose a calculation route. Send one sentence:
+
+```text
+Research the compensation of [full institution name] using $china-public-sector-compensation.
+```
+
+The skill identifies the official entity, searches official sources, reads attachments, reconciles the accounting scope, and performs the calculation. If no year is supplied, it starts with the latest completed fiscal year that can be verified. If the latest final account has not been published, it falls back to the newest usable year and labels that year explicitly. It asks a clarification question only when the name genuinely matches multiple entities.
+
+The result starts with three lines: the institution and year, the evidence status, and the conclusion or missing field. The source ledger and calculation details follow for review.
+
+## What It Does
+
+- Searches city fiscal indexes, supervising-department batch pages, unit disclosure columns, and government attachment storage.
+- Covers municipalities, provincial capitals, prefecture-level cities, county-level cities, development zones, special administrative zones, and central vertical systems.
+- Handles PDFs, XLSX files, ZIP archives, scanned documents, failed previews, JavaScript finance portals, and official object-storage links.
+- Searches wage amounts and headcount evidence in parallel, checking entity, year, budget/final-account basis, personnel scope, and amount unit.
+- Clearly reports `搜不到` when required real data cannot be found. It does not fill gaps with industry averages or guesses.
+
+## Expert Calculation Method
+
+These rules are mandatory, not optional reference points:
+
+1. **Local public institutions**
+
+   `Comparable wage total / matched headcount = organization average`
+
+   Ordinary employee estimate: `organization average x 2/3`.
+
+2. **Enterprise-managed public bodies**
+
+   `Total wage amount / matched employee count = organization average`
+
+   Ordinary employee estimate: `organization average x 1/2`.
+
+3. **Public-welfare class II or mixed-staff institutions**
+
+   `(Bonus + performance pay + allowances) / basic wage`
+
+   - `>= 4`:待遇不错 (good compensation)
+   - `< 3`:待遇较差 (poor compensation)
+   - `3 to < 4`: intermediate; continue with housing-fund and occupational-annuity ratios
+
+4. **Public-welfare class I institutions**
+
+   When the wage total and personnel scope match, calculate the per-person amount directly and state whether the denominator is year-end staff, annual average staff, or another basis.
+
+All calculator amount fields are normalized to ten-thousand yuan (`万元`). The original unit, conversion, and source location must be recorded.
+
+## Evidence States
+
+Evidence states are separate from the expert route letters:
+
+| State | Meaning |
+|---|---|
+| `FULL` | Same-year, same-scope final-account wage data and headcount are available; calculate per-person and ordinary-employee estimates |
+| `STRUCTURE_ONLY` | Final-account wage structure is available but matched headcount is not; provide the structure judgment and continue the headcount search |
+| `BUDGET_ONLY` | Only budget data is available; label the result as a budget estimate |
+| `NO_USABLE_DATA` | No usable wage breakdown remains after the search checklist; explicitly report `搜不到` |
+
+## Scope Rules
+
+- Never divide a department-wide consolidated amount by the headcount of one subordinate unit.
+- Never divide a new-year consolidated amount by an older center-only headcount.
+- Never mix a budget, adjusted budget, and final account in one calculation.
+- Never treat establishment count, actual staff, year-end staff, and annual-average staff as interchangeable denominators.
+- Never treat a search-result title, reposted table, or failed attachment preview as final evidence.
+- A landing page that identifies an attachment is not enough; inspect the attachment contents before accepting its figures.
+
+You do not need to decide whether the result is “搜不到” or “待遇较差”. `搜不到` means the required real data was not found; “poor compensation” means the data was found and the result fell below the author's threshold.
+
+## Research Workflow
+
+1. Resolve the official name, aliases, region, supervising department, and institution type.
+2. Search the city index, supervising-department batch page, unit disclosure column, finance platform, and attachment links.
+3. Run the amount and headcount tracks in parallel, prioritizing the same-year `公开06表` or equivalent wage-detail table.
+4. Build an evidence ledger with title, direct URL, publisher, year, table/page location, original labels, amount unit, and personnel scope.
+5. Apply the expert formula step by step, separating one-off awards, special funds, and other non-comparable items.
+6. Cross-check adjacent years, performance reports, staffing explanations, and recruitment notices.
+7. Report the conclusion, arithmetic, sources, search log, and missing fields using [references/output-template.md](references/output-template.md).
+
+Detailed guidance:
+
+- [SKILL.md](SKILL.md): invocation entry point and overall workflow
+- [references/expert-method.md](references/expert-method.md): four calculation routes and input schema
+- [references/source-playbook.md](references/source-playbook.md): source order, query families, and attachment handling
+- [references/city-coverage-patterns.md](references/city-coverage-patterns.md): tested portal patterns across ordinary and edge-case cities
+- [references/output-template.md](references/output-template.md): standard report structure
+
+## Calculator
+
+For verified JSON inputs, run:
+
+```bash
+python scripts/calculate_compensation.py path/to/input.json
+```
+
+The calculator checks:
+
+- report year and budget/final-account basis;
+- original amount unit, normalized unit, and conversion note;
+- source title, publisher, URL, location, and entity scope;
+- explicit reconciliation of amount and headcount scope;
+- same-year, same-scope headcount evidence for headcount routes.
+
+If these fields are missing, the program refuses to calculate instead of silently producing a precise-looking number. See [references/expert-method.md](references/expert-method.md) for JSON examples.
+
+## Tests
+
+On Windows, run validation in UTF-8 mode:
+
+```powershell
+$env:PYTHONUTF8='1'
+python C:\Users\41084\.codex\skills\.system\skill-creator\scripts\quick_validate.py .
+python -m unittest discover -s tests -v
+```
+
+The test suite covers the screenshot's `2/3`, `1/2`, and structure thresholds, real public reports from Beijing, Shanghai, Shenzhen, Guangzhou, Wuhan, Hangzhou, Xi'an, Hefei, Yantai, Zibo, Shaanxi, and Mohe, and provenance rejection cases.
+
+## Verified Search Lessons
+
+- City fiscal indexes are effective for discovering many units; supervising-department pages are especially useful for museums, libraries, schools, and service centers.
+- County and remote-area reports often consolidate a local center with transmitters or secondary budget units; read `部门决算编制范围` before selecting a denominator.
+- Development zones and special administrative zones may use independent government-disclosure indexes with separate PDF and XLSX attachments.
+- A JavaScript-only provincial finance portal is an access barrier, not proof that data is unavailable.
+- Central vertical systems often list units on a bureau-wide batch page; after a 502 or timeout on a subsite, continue through direct attachments, archive pages, and adjacent years.
+- Official object-storage links should be preserved together with the official landing page, not cited as bare file URLs.
+
+## License and Contributions
+
+This repository currently declares no additional open-source license. When contributing a new case or rule, include the original official URL, report year, table/page location, amount unit, entity scope, and a reproducible calculation expression.
