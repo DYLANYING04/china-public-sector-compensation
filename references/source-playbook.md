@@ -26,16 +26,26 @@ Do not assume these two portals cover every target. Find the equivalent finance 
 
 For city-specific portal layouts and verified examples from different city sizes, read [city-coverage-patterns.md](city-coverage-patterns.md).
 
-## Two Parallel Tracks
+## Three Parallel Tracks
 
-Start both tracks immediately:
+Start all tracks immediately:
+
+### Identity Track
+
+1. Find the current official institutional-functions page, `三定` provisions, establishment approval, legal-person registration, or classification decision.
+2. Record the official wording and source without inferring `公益一类/二类`, `参公`, or enterprise-style status from the name.
+3. Check for mergers, renaming, supervision transfers, and reforms between the identity source year and the compensation report year.
+4. Keep `官方机构身份` separate from the expert analysis route under [institution-classification.md](institution-classification.md).
 
 ### Amount Track
 
 1. Find the exact unit's newest final account.
 2. Open `一般公共预算财政拨款基本支出决算明细表`, commonly `公开06表`.
 3. Extract `30101 基本工资`, `30102 津贴补贴`, `30103 奖金`, `30107 绩效工资`, `30109 职业年金缴费`, `30113 住房公积金`, `30199 其他工资福利支出`, and total `301 工资福利支出`.
-4. If only a budget is available, use the equivalent basic-expenditure budget table and mark every result as budget-based.
+4. Preserve each row's name. Do not convert a blank or unreadable cell to zero unless the table legend expressly says blanks mean zero.
+5. Reconcile the available `301xx` detail to the `301` total when the complete table is present; explain any difference beyond rounding.
+6. Record whether the table covers `一般公共预算财政拨款基本支出`, another fiscal funding scope, or the institution's full payroll. For universities, hospitals, and operating institutions, a fiscal-appropriation table may omit compensation funded by service or operating income.
+7. If only a budget is available, use the equivalent basic-expenditure budget table and mark every result as budget-based.
 
 ### Headcount Track
 
@@ -49,6 +59,15 @@ Search in this order:
 6. adjacent-year official staff figures only as a continuity check, never as a same-year denominator unless an official source establishes comparability.
 
 If a matching headcount is still unavailable, keep the case in evidence state `STRUCTURE_ONLY` and deliver the author's structure analysis.
+
+Rank denominator quality in the final report:
+
+1. annual-average actual staff for the same payroll scope;
+2. year-end actual staff;
+3. actual staff at an unspecified date or registered annual-report total;
+4. sanctioned establishment count.
+
+Lower-ranked denominators are still usable under the author's method when the scope is supported, but must carry a caveat. If two credible denominators exist, show the sensitivity range rather than silently choosing the more favorable result.
 
 ## Query Families
 
@@ -108,10 +127,13 @@ Before accepting a number, answer all of these:
 - What fiscal year does it cover?
 - Does the report explicitly include subordinate or secondary budget units?
 - Is the amount in yuan, ten-thousand yuan, or hundred-million yuan?
+- Does the amount cover only fiscal appropriations or all payroll funding sources?
 - Does the numerator cover establishment staff, all employees, dispatched labor, retirees, or subordinate units?
 - Is the headcount sanctioned establishment, actual year-end staff, average staff, or total employees?
 - Are one-off rewards or arrears included?
 - Are employer social insurance, provident fund, and occupational annuity included?
+- Is an alleged special award explicitly identified by a source, rather than inferred from its size?
+- Do blank cells mean zero under the table legend, or are they missing/unreadable?
 
 Do not infer scope from the filename alone. Some cities call an individual institution's disclosure `部门决算`; inspect the internal `单位名称`, organization description, and table headers.
 
@@ -125,4 +147,4 @@ The search is complete when:
 4. report attachments and footnotes have been opened;
 5. remaining missing fields and blocked channels are recorded.
 
-If the matched wage amount or the required staff count remains unavailable, state `搜不到` for that field and use the expert fallback route when possible.
+If the matched wage amount or the required staff count remains unavailable, state `搜不到` for that field and use the expert fallback route when possible. Attach one or more cause codes: `NOT_DISCLOSED`, `NOT_FOUND_AFTER_CHECKLIST`, `ACCESS_BLOCKED`, `SCOPE_MISMATCH`, or `YEAR_MISMATCH`.

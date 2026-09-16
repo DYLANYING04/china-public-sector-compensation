@@ -15,9 +15,12 @@ class CalculationTests(unittest.TestCase):
         result = MODULE.calculate(
             {
                 "mode": "headcount",
-                "route": "local_public_institution",
-                "comparable_wage_components_wanyuan": [503, 1764],
-                "special_awards_wanyuan": [196],
+                "route": "local_two_thirds",
+                "wage_components_wanyuan": {
+                    "基本工资等可比项目": 503,
+                    "奖金绩效津贴补贴": 1764,
+                },
+                "special_awards_wanyuan": {"招商引资任务奖": 196},
                 "headcount": 88,
             }
         )
@@ -25,13 +28,15 @@ class CalculationTests(unittest.TestCase):
         self.assertEqual(result["ordinary_estimate_wanyuan_per_year"], "17.1742")
         self.assertEqual(result["ordinary_estimate_yuan_per_month"], "14311.87")
         self.assertEqual(result["special_award_wanyuan_per_person"], "2.2273")
+        self.assertFalse(result["used_legacy_component_list"])
+        self.assertEqual(result["route"], "local_two_thirds")
 
     def test_enterprise_managed_example(self):
         result = MODULE.calculate(
             {
                 "mode": "headcount",
-                "route": "enterprise_managed",
-                "comparable_wage_components_wanyuan": [9600],
+                "route": "leadership_skew_half",
+                "wage_components_wanyuan": {"工资总额": 9600},
                 "headcount": 200,
             }
         )
@@ -44,7 +49,11 @@ class CalculationTests(unittest.TestCase):
             {
                 "mode": "structure",
                 "basic_wage_wanyuan": 100,
-                "bonus_performance_allowance_wanyuan": [150, 200, 50],
+                "variable_components_wanyuan": {
+                    "奖金": 150,
+                    "绩效工资": 200,
+                    "津贴补贴": 50,
+                },
                 "ratio_wage_denominator_wanyuan": 500,
                 "housing_fund_wanyuan": 60,
                 "occupational_annuity_wanyuan": 40,
@@ -60,8 +69,8 @@ class CalculationTests(unittest.TestCase):
             MODULE.calculate(
                 {
                     "mode": "headcount",
-                    "route": "local_public_institution",
-                    "comparable_wage_components_wanyuan": [100],
+                    "route": "local_two_thirds",
+                    "wage_components_wanyuan": {"基本工资": 100},
                     "headcount": 0,
                 }
             )
@@ -77,6 +86,7 @@ class CalculationTests(unittest.TestCase):
             }
         )
         self.assertEqual(result["special_awards_total_wanyuan"], "0.0000")
+        self.assertEqual(result["route"], "local_two_thirds")
 
     def test_rejects_non_finite_numbers(self):
         with self.assertRaisesRegex(ValueError, "finite"):
@@ -84,9 +94,31 @@ class CalculationTests(unittest.TestCase):
                 {
                     "mode": "structure",
                     "basic_wage_wanyuan": "NaN",
-                    "bonus_performance_allowance_wanyuan": [1],
+                    "variable_components_wanyuan": {"奖金": 1},
                 }
             )
+
+    def test_rejects_named_and_legacy_components_together(self):
+        with self.assertRaisesRegex(ValueError, "not both"):
+            MODULE.calculate(
+                {
+                    "mode": "structure",
+                    "basic_wage_wanyuan": 100,
+                    "variable_components_wanyuan": {"奖金": 10},
+                    "bonus_performance_allowance_wanyuan": [10],
+                }
+            )
+
+    def test_named_components_remain_visible_in_result(self):
+        result = MODULE.calculate(
+            {
+                "mode": "structure",
+                "basic_wage_wanyuan": 100,
+                "variable_components_wanyuan": {"奖金": 0, "绩效工资": 250},
+            }
+        )
+        self.assertEqual(result["variable_components_wanyuan"]["奖金"], "0.0000")
+        self.assertEqual(result["structure_multiple"], "2.5000")
 
 
 if __name__ == "__main__":

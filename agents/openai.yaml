@@ -1,4 +1,4 @@
 interface:
   display_name: "中国公共单位待遇研究"
   short_description: "搜索公开报告并按专业经验核算中国公共单位人员待遇水平"
-  default_prompt: "使用 $china-public-sector-compensation，只给我一家中国公共单位的名称，自动搜索官方预算、决算和人员资料，按作者经验逐步核算待遇；数据不足就明确说搜不到。"
+  default_prompt: "使用 $china-public-sector-compensation，只给我一家中国公共单位的名称，自动搜索官方机构身份、预算、决算和人员资料，按作者经验逐步核算待遇；严格说明数据口径，数据不足就明确说搜不到。"

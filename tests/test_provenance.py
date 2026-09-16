@@ -11,9 +11,17 @@ def valid_input(mode="structure"):
     )
     data = {
         "mode": mode,
+        "route": "local_two_thirds" if mode == "headcount" else None,
         "provenance": {
             "entity_name": "示例事业单位",
-            "route_basis": route_basis,
+            "official_institution_status": "事业单位；未取得公益分类批复",
+            "analysis_route_reason": route_basis,
+            "analysis_route": "local_two_thirds" if mode == "headcount" else "structure_ratio",
+            "compensation_scope": "财政工资福利支出人均口径",
+            "funding_scope": "一般公共预算财政拨款基本支出",
+            "includes_employer_contributions": "yes",
+            "row_reconciliation_status": "matched",
+            "row_reconciliation_note": "301xx明细加总与301合计一致",
             "report_year": 2024,
             "basis": "决算",
             "input_amount_unit": "元",
@@ -38,6 +46,7 @@ def valid_input(mode="structure"):
             {
                 "headcount_scope_match_confirmed": True,
                 "headcount_scope_match_note": "年度报告法人名称与决算单位一致",
+                "headcount_basis": "year_end_actual",
                 "headcount_source": {
                     "title": "示例事业单位2024年度报告",
                     "url": "https://example.gov.cn/2024-report.pdf",
@@ -91,6 +100,42 @@ class ProvenanceValidationTests(unittest.TestCase):
         data = valid_input()
         del data["provenance"]["amount_source"]["publication_date"]
         with self.assertRaisesRegex(ValueError, "publication_date"):
+            validate_provenance(data)
+
+    def test_invalid_source_date_is_rejected(self):
+        data = valid_input()
+        data["provenance"]["amount_source"]["retrieved_date"] = "16-09-2026"
+        with self.assertRaisesRegex(ValueError, "ISO date"):
+            validate_provenance(data)
+
+    def test_retrieval_before_publication_is_rejected(self):
+        data = valid_input()
+        data["provenance"]["amount_source"]["retrieved_date"] = "2025-01-01"
+        with self.assertRaisesRegex(ValueError, "must not precede"):
+            validate_provenance(data)
+
+    def test_headcount_basis_is_required(self):
+        data = valid_input("headcount")
+        del data["provenance"]["headcount_basis"]
+        with self.assertRaisesRegex(ValueError, "headcount_basis"):
+            validate_provenance(data)
+
+    def test_employer_contribution_scope_is_explicit(self):
+        data = valid_input()
+        data["provenance"]["includes_employer_contributions"] = "maybe"
+        with self.assertRaisesRegex(ValueError, "yes, no, or unknown"):
+            validate_provenance(data)
+
+    def test_analysis_route_must_match_calculator_route(self):
+        data = valid_input("headcount")
+        data["provenance"]["analysis_route"] = "direct_per_capita"
+        with self.assertRaisesRegex(ValueError, "must match"):
+            validate_provenance(data)
+
+    def test_reconciliation_status_is_controlled(self):
+        data = valid_input()
+        data["provenance"]["row_reconciliation_status"] = "looks fine"
+        with self.assertRaisesRegex(ValueError, "matched, partial, or not_available"):
             validate_provenance(data)
 
 

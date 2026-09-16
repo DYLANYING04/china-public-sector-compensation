@@ -2,6 +2,8 @@
 
 This reference operationalizes the method supplied by the user. Apply it in the stated order. The inputs must be real sourced figures; the conversion factors and thresholds are the expert's judgment rules.
 
+The route names below describe the author's analytical method, not the institution's official legal classification. First resolve the official identity under [institution-classification.md](institution-classification.md), then choose the method supported by the evidence.
+
 ## Route A: Local Public Institutions
 
 This is the default route for Beijing municipal public institutions and analogous local units whose staffing is disclosed clearly.
@@ -12,12 +14,12 @@ This is the default route for Beijing municipal public institutions and analogou
 
    `organization average = sum(comparable wage components) / matched headcount`
 
-4. Identify a conspicuous unit-specific or task-completion award separately. Do not treat it as recurring compensation for comparisons with units that do not have it. Show both the recurring calculation and the award amount when present.
+4. Identify a unit-specific or task-completion award separately only when the report or another reliable source supports that classification. Size alone is not proof that an item is one-off. Show both the recurring calculation and the award amount when present.
 5. Estimate an ordinary section-level employee (`科级大头兵`) at two thirds of the comparable organization average:
 
    `ordinary employee estimate = organization average x 2/3`
 
-6. Convert the annual figure to a monthly figure by dividing by 12.
+6. Convert the annual figure to a monthly equivalent by dividing by 12. Do not label it monthly take-home pay.
 
 ### Screenshot Example
 
@@ -34,12 +36,12 @@ When working on a real unit, replace every example value with the latest matched
 
 ## Route B: Ministry-Affiliated Public-Welfare Class I
 
-Use this route when non-establishment staff are few and the final-account wage total mainly corresponds to registered staff.
+Use this route when an official source establishes the relevant status, evidence shows non-establishment staff are few, and the final-account wage total mainly corresponds to the registered staff count.
 
 1. Search the institution-registration or establishment-information system using the full official name.
 2. Inspect the unit's annual report for its total staff count.
 3. Cross-check that count against budget/final-account establishment disclosures, recruitment notices, or other official staff statements.
-4. Divide the matched wage-welfare total by the matched staff count directly:
+4. Confirm whether the wage-welfare total includes employer-paid contributions and whether it covers only fiscal appropriations or total payroll. Divide the matched total by the matched staff count directly:
 
    `per-person treatment = matched wage-welfare total / matched headcount`
 
@@ -47,10 +49,10 @@ Use this route when non-establishment staff are few and the final-account wage t
 
 ## Route C: Public-Welfare Class II or Mixed-Staff Institutions
 
-Use this route when annual-report headcount commonly includes substantial non-establishment staff or when no reliable matched denominator exists.
+Use this route when annual-report headcount includes substantial non-establishment staff, when an operating institution's fiscal table is not full compensation, or when no reliable matched denominator exists. It is also the fallback route regardless of official institution class.
 
 1. Extract `基本工资`.
-2. Add the disclosed `奖金 + 绩效工资 + 津贴补贴` items that belong to the same report scope.
+2. Add the disclosed `奖金 + 绩效工资 + 津贴补贴` items that belong to the same report scope. Preserve each item name. Treat a blank as missing, not zero, unless the table legend defines it as zero.
 3. Calculate:
 
    `structure multiple = (奖金 + 绩效工资 + 津贴补贴) / 基本工资`
@@ -68,9 +70,9 @@ Use this route when annual-report headcount commonly includes substantial non-es
 
 The source may not disclose the legally relevant contribution base. In that case use the specific wage denominator available in the same table and name it exactly.
 
-## Route D: Enterprise-Managed Public Bodies
+## Route D: Leadership-Skew / Enterprise-Style `1/2` Route
 
-Use this route for bodies such as the National Council for Social Security Fund or People's Bank branches when the organization is managed more like an enterprise and leadership pay raises the average.
+Use this route only when current evidence supports the author's condition that leadership compensation materially raises an enterprise-style organization average. This is an analytical label, not a legal classification. Do not select it merely because the institution is central, financial, vertically managed, or organized into branches.
 
 1. Find the total wage or salary amount for the target year.
 2. Find the matched total employee count for the same entity scope.
@@ -82,7 +84,7 @@ Use this route for bodies such as the National Council for Social Security Fund 
 
    `ordinary employee estimate = organization average x 1/2`
 
-5. For branches or systems with many subordinate units, reduce the denominator to the target branch's verified or best-supported staffing scope before dividing.
+5. For branches or systems with many subordinate units, use the target branch only when both its payroll numerator and staffing denominator are separately verified. Never allocate a system-wide numerator to a branch by assumption.
 
 ### Screenshot Example
 
@@ -115,13 +117,25 @@ For routes A, B, and D:
 ```json
 {
   "mode": "headcount",
-  "route": "local_public_institution",
-  "comparable_wage_components_wanyuan": [503, 1764],
-  "special_awards_wanyuan": [196],
+  "route": "local_two_thirds",
+  "wage_components_wanyuan": {
+    "基本工资等可比项目": 503,
+    "奖金绩效津贴补贴": 1764
+  },
+  "special_awards_wanyuan": {
+    "报告明确列示的招商引资任务奖": 196
+  },
   "headcount": 88,
   "provenance": {
     "entity_name": "单位全称",
-    "route_basis": "地方事业单位；按作者的地方单位路线计算",
+    "official_institution_status": "事业单位；未取得公益分类批复",
+    "analysis_route": "local_two_thirds",
+    "analysis_route_reason": "地方单位且同口径工资项目和人数均可核验；按作者2/3路线",
+    "compensation_scope": "财政工资福利支出人均口径",
+    "funding_scope": "一般公共预算财政拨款基本支出",
+    "includes_employer_contributions": "yes",
+    "row_reconciliation_status": "matched",
+    "row_reconciliation_note": "已核对301xx明细与301合计，差额仅为四舍五入",
     "report_year": 2024,
     "basis": "决算",
     "input_amount_unit": "万元",
@@ -139,6 +153,7 @@ For routes A, B, and D:
       "year": 2024,
       "entity_scope": "单位全称"
     },
+    "headcount_basis": "year_end_actual",
     "headcount_source": {
       "title": "单位全称2024年度报告",
       "url": "https://official.example/annual-report.pdf",
@@ -156,7 +171,7 @@ For routes A, B, and D:
 }
 ```
 
-Use `public_welfare_i` or `enterprise_managed` for the other headcount routes. Replace every placeholder with the real official source. All calculator amount fields are normalized to `万元`.
+Canonical calculator routes are `local_two_thirds`, `direct_per_capita`, and `leadership_skew_half`. The older names `local_public_institution`, `public_welfare_i`, and `enterprise_managed` remain accepted as aliases. Replace every placeholder with the real official source. All calculator amount fields are normalized to `万元`.
 
 For route C or the no-headcount fallback:
 
@@ -164,13 +179,24 @@ For route C or the no-headcount fallback:
 {
   "mode": "structure",
   "basic_wage_wanyuan": 100,
-  "bonus_performance_allowance_wanyuan": [150, 200, 50],
+  "variable_components_wanyuan": {
+    "奖金": 150,
+    "绩效工资": 200,
+    "津贴补贴": 50
+  },
   "ratio_wage_denominator_wanyuan": 500,
   "housing_fund_wanyuan": 60,
   "occupational_annuity_wanyuan": 40,
   "provenance": {
     "entity_name": "单位全称",
-    "route_basis": "未取得同口径人数；按作者的工资结构路线计算",
+    "official_institution_status": "官方机构身份未查明",
+    "analysis_route": "structure_ratio",
+    "analysis_route_reason": "未取得同口径人数；按作者的工资结构路线计算",
+    "compensation_scope": "财政工资福利支出结构口径",
+    "funding_scope": "一般公共预算财政拨款基本支出",
+    "includes_employer_contributions": "yes",
+    "row_reconciliation_status": "partial",
+    "row_reconciliation_note": "已核对所用30101/30102/30103/30107，未将单位缴费计入结构分子",
     "report_year": 2024,
     "basis": "决算",
     "input_amount_unit": "元",
@@ -192,4 +218,4 @@ For route C or the no-headcount fallback:
 }
 ```
 
-The CLI rejects missing provenance, mismatched years, unrecorded unit conversion, and amount or headcount scopes that have not been explicitly reconciled. Only include a numeric field when its source and scope have been verified.
+The CLI rejects missing provenance, mismatched years, invalid dates, unrecorded unit conversion, unnamed new-format components, and amount or headcount scopes that have not been explicitly reconciled. `includes_employer_contributions` must be `yes`, `no`, or `unknown`; `row_reconciliation_status` must be `matched`, `partial`, or `not_available`; `headcount_basis` must identify whether the denominator is an annual average, year-end actual count, point-in-time count, registered total, establishment count, or another stated basis. Only include a numeric field when its source and scope have been verified.
