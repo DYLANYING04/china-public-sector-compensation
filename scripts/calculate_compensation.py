@@ -28,6 +28,7 @@ VALID_HEADCOUNT_BASES = {
 }
 VALID_TRI_STATE = {"yes", "no", "unknown"}
 VALID_RECONCILIATION_STATES = {"matched", "partial", "not_available"}
+VALID_INFERENCE_CONFIDENCE = {"low", "medium", "high"}
 ROUTE_ALIASES = {
     "local_public_institution": "local_two_thirds",
     "public_welfare_i": "direct_per_capita",
@@ -112,6 +113,58 @@ def optional_named_values(data: dict[str, Any], field: str) -> dict[str, Decimal
         if not isinstance(label, str) or not label.strip():
             raise ValueError(f"{field} labels must be non-empty strings")
         result[label.strip()] = number(value, f"{field}.{label}")
+    return result
+
+
+def expert_inferred_awards(data: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """Read separately disclosed award-purpose judgments without treating them as facts."""
+
+    values = data.get("expert_inferred_special_awards_wanyuan")
+    if values is None:
+        return {}
+    if not isinstance(values, dict):
+        raise ValueError("expert_inferred_special_awards_wanyuan must be an object")
+
+    result: dict[str, dict[str, Any]] = {}
+    for label, detail in values.items():
+        if not isinstance(label, str) or not label.strip():
+            raise ValueError(
+                "expert_inferred_special_awards_wanyuan labels must be non-empty strings"
+            )
+        if not isinstance(detail, dict):
+            raise ValueError(
+                f"expert_inferred_special_awards_wanyuan.{label} must be an object"
+            )
+        amount = number(
+            detail.get("amount"),
+            f"expert_inferred_special_awards_wanyuan.{label}.amount",
+        )
+        basis = require_text(
+            detail,
+            "basis",
+            f"expert_inferred_special_awards_wanyuan.{label}",
+        )
+        source_locator = require_text(
+            detail,
+            "source_locator",
+            f"expert_inferred_special_awards_wanyuan.{label}",
+        )
+        confidence = require_text(
+            detail,
+            "confidence",
+            f"expert_inferred_special_awards_wanyuan.{label}",
+        )
+        if confidence not in VALID_INFERENCE_CONFIDENCE:
+            raise ValueError(
+                f"expert_inferred_special_awards_wanyuan.{label}.confidence "
+                "must be low, medium, or high"
+            )
+        result[label.strip()] = {
+            "amount": amount,
+            "basis": basis,
+            "source_locator": source_locator,
+            "confidence": confidence,
+        }
     return result
 
 
@@ -267,6 +320,11 @@ def calculate_headcount(data: dict[str, Any]) -> dict[str, Any]:
     headcount = positive_number(data.get("headcount"), "headcount")
     special_award_values = optional_named_values(data, "special_awards_wanyuan")
     special_awards = sum(special_award_values.values(), Decimal(0))
+    inferred_awards = expert_inferred_awards(data)
+    inferred_award_total = sum(
+        (detail["amount"] for detail in inferred_awards.values()), Decimal(0)
+    )
+    all_special_awards = special_awards + inferred_award_total
 
     route_input = data.get("route")
     route = ROUTE_ALIASES.get(route_input, route_input)
@@ -302,6 +360,26 @@ def calculate_headcount(data: dict[str, Any]) -> dict[str, Any]:
             annual_to_monthly_yuan(ordinary), "0.01"
         ),
         "special_award_wanyuan_per_person": rounded(award_per_person),
+        "expert_inferred_special_awards_wanyuan": {
+            label: {
+                "amount_wanyuan": rounded(detail["amount"]),
+                "basis": detail["basis"],
+                "source_locator": detail["source_locator"],
+                "confidence": detail["confidence"],
+                "classification": "专家判断，非来源明示",
+            }
+            for label, detail in inferred_awards.items()
+        },
+        "expert_inferred_special_awards_total_wanyuan": rounded(inferred_award_total),
+        "expert_inferred_special_award_wanyuan_per_person": rounded(
+            inferred_award_total / headcount
+        ),
+        "comparable_plus_all_special_awards_total_wanyuan": rounded(
+            components + all_special_awards
+        ),
+        "organization_average_including_all_special_awards_wanyuan_per_person_year": rounded(
+            (components + all_special_awards) / headcount
+        ),
     }
 
 

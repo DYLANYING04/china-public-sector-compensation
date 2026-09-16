@@ -132,7 +132,7 @@ Before accepting a number, answer all of these:
 - Is the headcount sanctioned establishment, actual year-end staff, average staff, or total employees?
 - Are one-off rewards or arrears included?
 - Are employer social insurance, provident fund, and occupational annuity included?
-- Is an alleged special award explicitly identified by a source, rather than inferred from its size?
+- Is a special award source-identified, or an `专家判断`? For an expert judgment, record the disclosed amount's location, the analytical basis, and a confidence level; never turn it into source wording.
 - Do blank cells mean zero under the table legend, or are they missing/unreadable?
 
 Do not infer scope from the filename alone. Some cities call an individual institution's disclosure `部门决算`; inspect the internal `单位名称`, organization description, and table headers.

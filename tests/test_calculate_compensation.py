@@ -20,14 +20,32 @@ class CalculationTests(unittest.TestCase):
                     "基本工资等可比项目": 503,
                     "奖金绩效津贴补贴": 1764,
                 },
-                "special_awards_wanyuan": {"招商引资任务奖": 196},
+                "expert_inferred_special_awards_wanyuan": {
+                    "招商引资任务完成奖": {
+                        "amount": 196,
+                        "basis": "作者根据单位招商引资职能和报表项目结构判断",
+                        "source_locator": "2022年度决算工资福利明细表中的196万元项目",
+                        "confidence": "medium",
+                    }
+                },
                 "headcount": 88,
             }
         )
         self.assertEqual(result["organization_average_wanyuan_per_person_year"], "25.7614")
         self.assertEqual(result["ordinary_estimate_wanyuan_per_year"], "17.1742")
         self.assertEqual(result["ordinary_estimate_yuan_per_month"], "14311.87")
-        self.assertEqual(result["special_award_wanyuan_per_person"], "2.2273")
+        inferred = result["expert_inferred_special_awards_wanyuan"]
+        self.assertEqual(inferred["招商引资任务完成奖"]["amount_wanyuan"], "196.0000")
+        self.assertEqual(inferred["招商引资任务完成奖"]["confidence"], "medium")
+        self.assertEqual(
+            result["expert_inferred_special_award_wanyuan_per_person"], "2.2273"
+        )
+        self.assertEqual(
+            result[
+                "organization_average_including_all_special_awards_wanyuan_per_person_year"
+            ],
+            "27.9886",
+        )
         self.assertFalse(result["used_legacy_component_list"])
         self.assertEqual(result["route"], "local_two_thirds")
 
@@ -87,6 +105,57 @@ class CalculationTests(unittest.TestCase):
         )
         self.assertEqual(result["special_awards_total_wanyuan"], "0.0000")
         self.assertEqual(result["route"], "local_two_thirds")
+
+    def test_expert_inference_requires_basis_and_controlled_confidence(self):
+        with self.assertRaisesRegex(ValueError, "basis"):
+            MODULE.calculate(
+                {
+                    "mode": "headcount",
+                    "route": "local_two_thirds",
+                    "wage_components_wanyuan": {"基本工资": 100},
+                    "headcount": 10,
+                    "expert_inferred_special_awards_wanyuan": {
+                        "专项奖": {
+                            "amount": 10,
+                            "source_locator": "工资福利明细表第1页",
+                            "confidence": "medium",
+                        }
+                    },
+                }
+            )
+        with self.assertRaisesRegex(ValueError, "low, medium, or high"):
+            MODULE.calculate(
+                {
+                    "mode": "headcount",
+                    "route": "local_two_thirds",
+                    "wage_components_wanyuan": {"基本工资": 100},
+                    "headcount": 10,
+                    "expert_inferred_special_awards_wanyuan": {
+                        "专项奖": {
+                            "amount": 10,
+                            "basis": "项目结构判断",
+                            "source_locator": "工资福利明细表第1页",
+                            "confidence": "certain",
+                        }
+                    },
+                }
+            )
+        with self.assertRaisesRegex(ValueError, "source_locator"):
+            MODULE.calculate(
+                {
+                    "mode": "headcount",
+                    "route": "local_two_thirds",
+                    "wage_components_wanyuan": {"基本工资": 100},
+                    "headcount": 10,
+                    "expert_inferred_special_awards_wanyuan": {
+                        "专项奖": {
+                            "amount": 10,
+                            "basis": "项目结构判断",
+                            "confidence": "medium",
+                        }
+                    },
+                }
+            )
 
     def test_rejects_non_finite_numbers(self):
         with self.assertRaisesRegex(ValueError, "finite"):

@@ -1,6 +1,6 @@
 # Expert Method
 
-This reference operationalizes the method supplied by the user. Apply it in the stated order. The inputs must be real sourced figures; the conversion factors and thresholds are the expert's judgment rules.
+This reference operationalizes the method supplied by the user. Apply it in the stated order. The reported amounts and headcounts must be real sourced figures; purpose classifications may be the author's or analyst's expert judgment when they are explicitly marked as such.
 
 The route names below describe the author's analytical method, not the institution's official legal classification. First resolve the official identity under [institution-classification.md](institution-classification.md), then choose the method supported by the evidence.
 
@@ -14,7 +14,7 @@ This is the default route for Beijing municipal public institutions and analogou
 
    `organization average = sum(comparable wage components) / matched headcount`
 
-4. Identify a unit-specific or task-completion award separately only when the report or another reliable source supports that classification. Size alone is not proof that an item is one-off. Show both the recurring calculation and the award amount when present.
+4. Identify a unit-specific or task-completion award separately. If the report names it, mark it `来源明示`. If the report supplies the amount but not its purpose, apply the author's professional judgment where warranted: mark it `专家判断`, cite the report location for the amount, state the basis and confidence, and never claim the report named the award. Show both the recurring calculation and the separately judged award amount.
 5. Estimate an ordinary section-level employee (`科级大头兵`) at two thirds of the comparable organization average:
 
    `ordinary employee estimate = organization average x 2/3`
@@ -27,7 +27,7 @@ Using the author's example values, all in `万元`:
 
 - comparable wage components: `503 + 1764`;
 - matched staff count: `88`;
-- separately identified award: `196`;
+- expert judgment: `196` is estimated to be a 招商引资任务完成奖; the amount remains a reported figure, while the award purpose is not presented as report wording;
 - organization average: `(503 + 1764) / 88 = 25.7614 万元/人/年`;
 - ordinary employee estimate: `25.7614 x 2/3 = 17.1742 万元/年`;
 - monthly equivalent: `17.1742 / 12 = 1.4312 万元/月`.
@@ -122,8 +122,13 @@ For routes A, B, and D:
     "基本工资等可比项目": 503,
     "奖金绩效津贴补贴": 1764
   },
-  "special_awards_wanyuan": {
-    "报告明确列示的招商引资任务奖": 196
+  "expert_inferred_special_awards_wanyuan": {
+    "招商引资任务完成奖": {
+      "amount": 196,
+      "basis": "作者根据单位招商引资职能和报表项目结构判断；报表未明示奖项名称",
+      "source_locator": "2022年度决算工资福利明细表中的196万元项目",
+      "confidence": "medium"
+    }
   },
   "headcount": 88,
   "provenance": {

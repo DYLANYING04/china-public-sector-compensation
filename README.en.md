@@ -34,7 +34,7 @@ The result starts with three lines: the institution and year, the evidence statu
 - Covers municipalities, provincial capitals, prefecture-level cities, county-level cities, development zones, demonstration zones, and central vertical systems.
 - Handles PDFs, XLSX files, ZIP archives, scanned documents, failed previews, JavaScript finance portals, and official object-storage links.
 - Searches wage amounts and headcount evidence in parallel, checking entity, year, budget/final-account basis, personnel scope, and amount unit.
-- Clearly reports `搜不到` when required real data cannot be found. It does not fill gaps with industry averages or guesses.
+- Clearly reports `搜不到` when required real data cannot be found. It does not fill gaps with industry averages, while allowing explicitly labeled expert judgments about the purpose of a real disclosed amount under the author's method.
 
 ## Expert Calculation Method
 
@@ -64,6 +64,8 @@ These rules are mandatory, not optional reference points. The route labels descr
 
    When the wage total and personnel scope match, calculate the per-person amount directly and state whether the denominator is year-end staff, annual average staff, or another basis.
 
+**Author's special-award judgment:** The reported amount must remain real and traceable, but a report need not name the award's purpose. As in the author's assessment that `196` is likely a recruitment-investment task award, the analyst may make an expert inference from the unit's duties and the report structure. The report must label it as an expert judgment, give its basis and confidence, and never present it as source wording.
+
 All calculator amount fields are normalized to ten-thousand yuan (`万元`). The original unit, conversion, and source location must be recorded.
 
 The report must state `official institution identity` and `expert analysis route` separately. If no current establishment approval, registration report, `三定` provision, or equivalent official source is available, it reports the identity as unknown instead of inferring class I, class II, or civil-service-reference status from the name or wage structure.
@@ -87,7 +89,7 @@ Evidence states are separate from the expert route letters:
 - Never treat establishment count, actual staff, year-end staff, and annual-average staff as interchangeable denominators.
 - Never describe a general-public-budget appropriation table as the institution's complete payroll; this is especially important for universities and hospitals with operating or service income.
 - Never describe wage-welfare expenditure that includes employer contributions as after-tax or take-home salary.
-- Never silently turn a blank cell into zero or classify a large item as a one-off award without source support.
+- Never silently turn a blank cell into zero. A special award may be classified through the author's expert judgment, but the report must state the basis, confidence, and that the source did not explicitly name the award.
 - Never treat a search-result title, reposted table, or failed attachment preview as final evidence.
 - A landing page that identifies an attachment is not enough; inspect the attachment contents before accepting its figures.
 

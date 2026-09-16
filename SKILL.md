@@ -21,7 +21,7 @@ The user should be able to send only `研究：单位全称的待遇` and receiv
 ## Non-Negotiable Rules
 
 1. Use the expert procedure in [references/expert-method.md](references/expert-method.md) step by step. The `2/3`, `1/2`, and salary-structure ratio rules are part of the requested method, not optional commentary.
-2. Every input number must be traceable to a source. Never invent a missing amount, headcount, year, unit, or institutional classification.
+2. Every reported amount, headcount, year, unit, and official institutional classification must be traceable to a source. An expert may infer the purpose of a disclosed amount when applying the author's method; label that conclusion `专家判断`, give its basis and confidence, and never rewrite it as wording the source itself states.
 3. Match the numerator and denominator before dividing. Confirm entity scope, reporting year, budget versus final account, amount unit, personnel category, funding scope, and whether the document is department-wide or unit-level.
 4. If a required real figure cannot be found after completing the search checklist, say `搜不到` and identify the missing field. Do not fill the gap with a generic industry average.
 5. Distinguish sourced inputs from calculated results. The expert conversion is the calculation method; the amounts and headcounts must still come from real documents.
@@ -78,7 +78,7 @@ Do not combine values across years or scopes unless the document explicitly make
 
 Use the route selected in step 1 and calculate in the order given in [references/expert-method.md](references/expert-method.md):
 
-- local units: wage components divided by staff count, source-identified special awards handled separately, then ordinary staff estimated at `2/3` of the comparable average;
+- local units: wage components divided by staff count, separately handle special awards identified either by the source or by a transparent expert inference, then estimate ordinary staff at `2/3` of the comparable average;
 - public-welfare class I: find registered or annual-report headcount and divide the matched wage total directly;
 - public-welfare class II or mixed-staff units: calculate the bonus/performance/allowance-to-basic-wage ratio; interpret `>= 4` as good, `< 3` as poor, and use provident-fund and occupational-annuity ratios for the remaining judgment;
 - units meeting the author's leadership-skew/enterprise-style condition: total wage amount divided by the matched total headcount, then ordinary staff estimated at about `1/2` of the average.
@@ -95,7 +95,7 @@ Use `scripts/calculate_compensation.py` for arithmetic when the inputs fit its s
 - Check whether labor dispatch, externally hired staff, retirees, or subordinate units are included in either side of the division.
 - Rank the denominator explicitly: annual-average actual staff is strongest for annual expenditure; year-end actual staff, unspecified-date actual staff, and establishment count require progressively stronger caveats. Show a sensitivity range when a second credible denominator is available.
 - Reconcile extracted `301xx` rows to the disclosed `301` total when the table provides all rows. Investigate differences beyond stated rounding.
-- Exclude a special or one-off award only when the document or another reliable source identifies it as such; a large number alone is not enough.
+- For a special or one-off award, distinguish `来源明示` from `专家判断`. The latter is permitted by the author's method when it is grounded in a disclosed amount and a stated analytical rationale; show the amount, rationale, confidence, and the alternative calculation without silently presenting the judgment as a source fact.
 - Use official recruitment materials and credible employee disclosures as consistency checks, while keeping their evidentiary role explicit.
 
 ### 6. Report

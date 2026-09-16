@@ -51,7 +51,7 @@ For route D, use `x 1/2`. For route C, show the exact structure numerator before
 | 人员数 | | | 编制/实有/年末/全年平均 | direct link, page/section |
 | 公积金/职业年金 | | | | direct link, page/table/row |
 
-State explicitly whether the numerator and denominator match. Name the funding scope, employer-paid contribution treatment, denominator basis and quality, and `301xx`-to-`301` reconciliation status. Explain any adjustment for awards, subordinate units, non-establishment staff, or amount units. A special award may be excluded only when a source identifies it as special or one-off.
+State explicitly whether the numerator and denominator match. Name the funding scope, employer-paid contribution treatment, denominator basis and quality, and `301xx`-to-`301` reconciliation status. Explain any adjustment for awards, subordinate units, non-establishment staff, or amount units. For every special award, distinguish `来源明示` from `专家判断`; an expert judgment must state the disclosed amount's source location, analytical basis, and confidence, and must not be written as a source fact.
 
 ## 作者经验判断
 
@@ -60,6 +60,15 @@ State the applied rule without replacing it:
 - local ordinary staff: `单位人均 x 2/3`;
 - leadership-skew/enterprise-style ordinary staff: `单位人均 x 1/2`;
 - structure route: apply the author's `>= 4`, `< 3`, and intermediate thresholds.
+
+When the author or analyst judges a disclosed amount to be a special award, add one line in this form:
+
+```text
+专家判断：196 万元估计为招商引资任务完成奖；依据：单位职能和报表项目结构；置信度：中；报表未明示奖项名称。
+金额定位：2022 年度决算工资福利明细表中的 196 万元项目。
+```
+
+在专家判断奖被排除于可比工资项目时，同时给出两种对照：`按作者可比口径的人均`，以及`若将所有单列奖项计入的人均`。普通员工的 `2/3` 或 `1/2` 估算以作者选定的可比口径为准。
 
 ## 搜索记录
 
