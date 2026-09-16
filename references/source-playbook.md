@@ -24,6 +24,32 @@ Useful official entry points include:
 
 Do not assume these two portals cover every target. Find the equivalent finance and disclosure portals for the unit's jurisdiction.
 
+For city-specific portal layouts and verified examples from different city sizes, read [city-coverage-patterns.md](city-coverage-patterns.md).
+
+## Two Parallel Tracks
+
+Start both tracks immediately:
+
+### Amount Track
+
+1. Find the exact unit's newest final account.
+2. Open `一般公共预算财政拨款基本支出决算明细表`, commonly `公开06表`.
+3. Extract `30101 基本工资`, `30102 津贴补贴`, `30103 奖金`, `30107 绩效工资`, `30109 职业年金缴费`, `30113 住房公积金`, `30199 其他工资福利支出`, and total `301 工资福利支出`.
+4. If only a budget is available, use the equivalent basic-expenditure budget table and mark every result as budget-based.
+
+### Headcount Track
+
+Search in this order:
+
+1. the same-year unit final-account narrative for `人员编制及实有情况`;
+2. the same-year unit budget narrative for `机构编制及交通工具情况`, `编制数`, or `实有人数`;
+3. same-year department or unit overall-performance/self-evaluation reports for `人员管理情况` and `财政供养人员控制率`;
+4. national or local institution-registration annual reports for `人员总数`;
+5. same-year official annual reports, audit reports, institutional profiles, and recruitment materials;
+6. adjacent-year official staff figures only as a continuity check, never as a same-year denominator unless an official source establishes comparability.
+
+If a matching headcount is still unavailable, keep the case in evidence state `STRUCTURE_ONLY` and deliver the author's structure analysis.
+
 ## Query Families
 
 Run queries with the full name, current alias, former name, and supervising department where applicable:
@@ -41,8 +67,14 @@ Run queries with the full name, current alias, former name, and supervising depa
 - `"单位全称" 审计 报告`
 - `"单位全称" 招聘 待遇`
 - `"单位全称" 年报 人员总数`
+- `"单位全称" "人员编制及实有情况"`
+- `"单位全称" "机构编制及交通工具情况"`
+- `"单位全称" "人员管理情况" "财政供养人员控制率"`
 - `"单位全称" 公开招聘 工资 薪酬 公积金`
 - `"单位全称" 小红书 OR 知乎 OR 微博 待遇`
+- `"主管部门全称" 年度 所属单位决算`
+- `"城市名" 年度 市级部门决算公开`
+- `"单位全称" "公开06表"`
 - `site:official-domain "单位全称" filetype:pdf`
 - `site:official-domain "单位全称" filetype:xls OR filetype:xlsx`
 
@@ -51,11 +83,16 @@ Repeat for the newest final-account year and at least two preceding years when a
 ## Attachment Handling
 
 - Open HTML attachments rather than relying on page summaries.
-- Download official PDFs or spreadsheets when inspection tools require a local file.
+- Extract the attachment URL from the official landing page. A failed preview is not evidence that the attachment is absent.
+- Download official PDFs, spreadsheets, or archives when inspection tools require a local file.
+- For XLSX, inspect sheet names and locate `GK06`, `公开06表`, or the basic-expenditure sheet with a spreadsheet parser.
+- For ZIP, list entries first, then inspect only relevant PDF, DOCX, XLSX, or image files. Preserve the archive and landing-page URL in the evidence ledger.
+- For government object-storage or CDN links, retain the official landing page that links to the object. A bare object URL alone may not prove publisher identity.
 - Use OCR for image-only reports and verify extracted digits against the page image.
 - Inspect table headers for `金额单位` and footnotes for scope.
 - Record the direct report URL and the landing-page URL when both exist.
 - If a portal requires a CAPTCHA or login, record the access barrier and continue through the unit, supervisor, finance, audit, and archived official channels.
+- Reject search-result clones and scraped copies when the same document exists on an official government or unit domain. Domain appearance and page title are not enough; verify the publisher, site identity, and attachment origin.
 
 ## Scope Checklist
 
@@ -70,6 +107,8 @@ Before accepting a number, answer all of these:
 - Is the headcount sanctioned establishment, actual year-end staff, average staff, or total employees?
 - Are one-off rewards or arrears included?
 - Are employer social insurance, provident fund, and occupational annuity included?
+
+Do not infer scope from the filename alone. Some cities call an individual institution's disclosure `部门决算`; inspect the internal `单位名称`, organization description, and table headers.
 
 ## Stopping Rule
 

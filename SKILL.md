@@ -27,9 +27,11 @@ Given only a unit name, independently identify the unit, search the available re
 
 ### 2. Search Exhaustively
 
-Read [references/source-playbook.md](references/source-playbook.md) and complete its source and query checklist. Search the newest usable final account first, then adjacent years and supplementary staffing records. Follow attachment links, inspect spreadsheets, and OCR scanned PDFs when needed.
+Read [references/source-playbook.md](references/source-playbook.md) and complete its source and query checklist. For local units, also read [references/city-coverage-patterns.md](references/city-coverage-patterns.md). Search the newest usable final account first, then adjacent years and supplementary staffing records. Follow attachment links, inspect spreadsheets and archives, and OCR scanned PDFs when needed.
 
 Maintain a search log with the query, channel, result, document year, and reason a source was accepted or rejected. `Exhaustive` means every relevant channel and query family in the playbook was attempted, not that the search runs without a stopping condition.
+
+Run the amount search and headcount search in parallel. As soon as the exact unit's public `公开06表` or equivalent breakdown is available, calculate the expert wage-structure multiple. Continue searching for matched headcount; do not delay the structure result until all personnel channels have failed.
 
 ### 3. Build the Evidence Ledger
 
@@ -44,6 +46,13 @@ For every number record:
 - entity and personnel scope;
 - whether it is budgeted or realized.
 
+Assign the case an evidence state that is separate from the expert route letters:
+
+- `FULL`: final-account wage data and same-year matched headcount; calculate the full per-person result;
+- `STRUCTURE_ONLY`: final-account wage components but no matched headcount; calculate the structure result and keep searching for headcount;
+- `BUDGET_ONLY`: only budget wage data; calculate a budget estimate and label it as such;
+- `NO_USABLE_DATA`: no usable wage breakdown; report `搜不到` after the stopping checklist.
+
 Do not combine values across years or scopes unless the document explicitly makes them comparable. If a report is consolidated, do not divide it by the headcount of only one subordinate unit.
 
 ### 4. Apply the Expert Route
@@ -55,7 +64,7 @@ Use the route selected in step 1 and calculate in the order given in [references
 - public-welfare class II or mixed-staff units: calculate the bonus/performance/allowance-to-basic-wage ratio; interpret `>= 4` as good, `< 3` as poor, and use provident-fund and occupational-annuity ratios for the remaining judgment;
 - enterprise-managed public bodies: total wage amount divided by the matched total headcount, then ordinary staff estimated at about `1/2` of the average.
 
-Use `scripts/calculate_compensation.py` for arithmetic when the inputs fit its schema. Keep the source evidence beside the script output.
+Use `scripts/calculate_compensation.py` for arithmetic when the inputs fit its schema. Its CLI requires provenance and scope metadata; do not bypass that validation for a real case.
 
 ### 5. Cross-Check
 

@@ -118,11 +118,45 @@ For routes A, B, and D:
   "route": "local_public_institution",
   "comparable_wage_components_wanyuan": [503, 1764],
   "special_awards_wanyuan": [196],
-  "headcount": 88
+  "headcount": 88,
+  "provenance": {
+    "entity_name": "单位全称",
+    "route_basis": "地方事业单位；按作者的地方单位路线计算",
+    "report_year": 2024,
+    "basis": "决算",
+    "input_amount_unit": "万元",
+    "normalized_amount_unit": "万元",
+    "unit_conversion": "原表单位已为万元，无换算",
+    "amount_scope_match_confirmed": true,
+    "amount_scope_match_note": "决算封面和表内单位名称均为该单位本级",
+    "amount_source": {
+      "title": "单位全称2024年度单位决算",
+      "url": "https://official.example/report.pdf",
+      "publisher": "发布机关全称",
+      "publication_date": "2025-08-20",
+      "retrieved_date": "2026-09-16",
+      "locator": "公开06表，第12页，301栏",
+      "year": 2024,
+      "entity_scope": "单位全称"
+    },
+    "headcount_source": {
+      "title": "单位全称2024年度报告",
+      "url": "https://official.example/annual-report.pdf",
+      "publisher": "发布机关全称",
+      "publication_date": "2025-03-31",
+      "retrieved_date": "2026-09-16",
+      "locator": "人员情况，第3页",
+      "year": 2024,
+      "entity_scope": "单位全称",
+      "headcount_type": "年末实有人数"
+    },
+    "headcount_scope_match_confirmed": true,
+    "headcount_scope_match_note": "人数来源法人名称、年度和单位范围与决算一致"
+  }
 }
 ```
 
-Use `public_welfare_i` or `enterprise_managed` for the other headcount routes. All amounts are in `万元`.
+Use `public_welfare_i` or `enterprise_managed` for the other headcount routes. Replace every placeholder with the real official source. All calculator amount fields are normalized to `万元`.
 
 For route C or the no-headcount fallback:
 
@@ -133,8 +167,29 @@ For route C or the no-headcount fallback:
   "bonus_performance_allowance_wanyuan": [150, 200, 50],
   "ratio_wage_denominator_wanyuan": 500,
   "housing_fund_wanyuan": 60,
-  "occupational_annuity_wanyuan": 40
+  "occupational_annuity_wanyuan": 40,
+  "provenance": {
+    "entity_name": "单位全称",
+    "route_basis": "未取得同口径人数；按作者的工资结构路线计算",
+    "report_year": 2024,
+    "basis": "决算",
+    "input_amount_unit": "元",
+    "normalized_amount_unit": "万元",
+    "unit_conversion": "原表金额除以10000",
+    "amount_scope_match_confirmed": true,
+    "amount_scope_match_note": "决算封面和表内单位名称均为该单位本级",
+    "amount_source": {
+      "title": "单位全称2024年度单位决算",
+      "url": "https://official.example/report.pdf",
+      "publisher": "发布机关全称",
+      "publication_date": "2025-08-20",
+      "retrieved_date": "2026-09-16",
+      "locator": "公开06表，第12页，30101/30102/30103/30107栏",
+      "year": 2024,
+      "entity_scope": "单位全称"
+    }
+  }
 }
 ```
 
-Only include a field when its source and scope have been verified.
+The CLI rejects missing provenance, mismatched years, unrecorded unit conversion, and amount or headcount scopes that have not been explicitly reconciled. Only include a numeric field when its source and scope have been verified.

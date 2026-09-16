@@ -7,6 +7,7 @@ Use concise Chinese. Preserve this information structure, while adapting heading
 - 单位：full official name
 - 采用年度：year
 - 单位类型与计算路线：A/B/C/D
+- 证据状态：`FULL` / `STRUCTURE_ONLY` / `BUDGET_ONLY` / `NO_USABLE_DATA`, and why
 - 作者方法下的普通员工待遇：annual and monthly result, or `搜不到，无法按该方法计算`
 - 单位人均值：annual and monthly result when available
 - 工资结构判断：ratio and expert interpretation when route C or fallback applies
@@ -45,7 +46,17 @@ State the applied rule without replacing it:
 
 ## 搜索记录
 
-List the official portals, unit/supervisor pages, registration/annual-report sources, audit sources, and supplementary channels checked. Mention inaccessible pages or missing attachments.
+Use a compact log:
+
+| 渠道/查询 | 结果 | 是否采用 | 原因 |
+|---|---|---|---|
+| 市级财政索引 | | | |
+| 主管部门所属单位页面 | | | |
+| 单位官网及附件 | | | |
+| 编制/登记年报/绩效报告 | | | |
+| 补充渠道 | | | |
+
+Mention inaccessible pages, missing attachments, preview failures, downloaded XLSX/ZIP files, and name aliases tried.
 
 ## 未找到的数据
 

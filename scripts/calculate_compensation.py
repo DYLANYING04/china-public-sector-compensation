@@ -13,6 +13,17 @@ from typing import Any
 TWO_THIRDS = Decimal(2) / Decimal(3)
 ONE_HALF = Decimal(1) / Decimal(2)
 WAN_TO_YUAN = Decimal(10000)
+VALID_INPUT_UNITS = {"元", "万元", "亿元"}
+VALID_BASES = {"预算", "决算"}
+REQUIRED_SOURCE_FIELDS = {
+    "title",
+    "url",
+    "publisher",
+    "retrieved_date",
+    "locator",
+    "year",
+    "entity_scope",
+}
 
 
 def number(value: Any, field: str) -> Decimal:
@@ -44,6 +55,79 @@ def rounded(value: Decimal, places: str = "0.0001") -> str:
 
 def annual_to_monthly_yuan(annual_wanyuan: Decimal) -> Decimal:
     return annual_wanyuan * WAN_TO_YUAN / Decimal(12)
+
+
+def require_text(container: dict[str, Any], field: str, prefix: str = "") -> str:
+    value = container.get(field)
+    label = f"{prefix}.{field}" if prefix else field
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{label} must be a non-empty string")
+    return value.strip()
+
+
+def validate_source(source: Any, field: str, report_year: int) -> dict[str, Any]:
+    if not isinstance(source, dict):
+        raise ValueError(f"provenance.{field} must be an object")
+
+    missing = sorted(REQUIRED_SOURCE_FIELDS - source.keys())
+    if missing:
+        raise ValueError(
+            f"provenance.{field} is missing required fields: {', '.join(missing)}"
+        )
+
+    for key in REQUIRED_SOURCE_FIELDS - {"year"}:
+        require_text(source, key, f"provenance.{field}")
+
+    if not source["url"].startswith(("https://", "http://")):
+        raise ValueError(f"provenance.{field}.url must be an HTTP(S) URL")
+    if source["year"] != report_year:
+        raise ValueError(
+            f"provenance.{field}.year must equal provenance.report_year"
+        )
+    return source
+
+
+def validate_provenance(data: dict[str, Any]) -> dict[str, Any]:
+    """Reject calculations whose amount and headcount evidence cannot be audited."""
+
+    provenance = data.get("provenance")
+    if not isinstance(provenance, dict):
+        raise ValueError("provenance must be an object")
+
+    entity_name = require_text(provenance, "entity_name")
+    require_text(provenance, "route_basis")
+    basis = require_text(provenance, "basis")
+    if basis not in VALID_BASES:
+        raise ValueError("provenance.basis must be 预算 or 决算")
+
+    report_year = provenance.get("report_year")
+    if not isinstance(report_year, int) or isinstance(report_year, bool):
+        raise ValueError("provenance.report_year must be an integer")
+
+    input_unit = require_text(provenance, "input_amount_unit")
+    if input_unit not in VALID_INPUT_UNITS:
+        raise ValueError("provenance.input_amount_unit must be 元, 万元, or 亿元")
+    if require_text(provenance, "normalized_amount_unit") != "万元":
+        raise ValueError("provenance.normalized_amount_unit must be 万元")
+    require_text(provenance, "unit_conversion")
+
+    amount_source = validate_source(
+        provenance.get("amount_source"), "amount_source", report_year
+    )
+    if provenance.get("amount_scope_match_confirmed") is not True:
+        raise ValueError("provenance.amount_scope_match_confirmed must be true")
+    require_text(provenance, "amount_scope_match_note")
+
+    if data.get("mode") == "headcount":
+        headcount_source = validate_source(
+            provenance.get("headcount_source"), "headcount_source", report_year
+        )
+        require_text(headcount_source, "headcount_type", "provenance.headcount_source")
+        if provenance.get("headcount_scope_match_confirmed") is not True:
+            raise ValueError("provenance.headcount_scope_match_confirmed must be true")
+        require_text(provenance, "headcount_scope_match_note")
+
+    return provenance
 
 
 def calculate_headcount(data: dict[str, Any]) -> dict[str, Any]:
@@ -148,7 +232,9 @@ def main() -> int:
 
     try:
         data = json.loads(args.input.read_text(encoding="utf-8"))
+        provenance = validate_provenance(data)
         result = calculate(data)
+        result["provenance"] = provenance
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         parser.error(str(exc))
 
