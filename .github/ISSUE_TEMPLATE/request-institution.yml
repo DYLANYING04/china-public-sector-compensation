@@ -1,0 +1,30 @@
+name: Request an institution
+description: Request a public-source compensation research case.
+title: "[Institution request]: "
+labels: ["institution-request"]
+body:
+  - type: input
+    id: institution
+    attributes:
+      label: Official institution name
+      description: Include city, supervising department, branch, or former name when known.
+      placeholder: 例如：某市公共就业服务中心
+    validations:
+      required: true
+  - type: input
+    id: year
+    attributes:
+      label: Preferred report year
+      placeholder: 2024
+  - type: textarea
+    id: context
+    attributes:
+      label: Public context
+      description: Optional official links, aliases, or scope notes. Do not post personal salary data.
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation
+      options:
+        - label: I understand that the result may be `搜不到` when public, matched data is unavailable.
+          required: true

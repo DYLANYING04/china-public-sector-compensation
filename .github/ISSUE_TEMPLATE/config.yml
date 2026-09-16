@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Read the source rules
+    url: https://github.com/DYLANYING04/china-public-sector-compensation/blob/main/references/source-playbook.md
+    about: Review the public-source and scope requirements before submitting a case.

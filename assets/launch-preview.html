@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>中国企事业单位待遇研究</title>
+  <style>
+    :root { --ink: #20252b; --paper: #f5f3ed; --blue: #1479b8; --red: #c85a3f; --green: #277b63; --line: #cad3d6; }
+    * { box-sizing: border-box; }
+    body { margin: 0; width: 1280px; height: 640px; overflow: hidden; background: var(--paper); color: var(--ink); font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; }
+    main { height: 100%; padding: 58px 72px 46px; display: grid; grid-template-columns: 1.15fr .85fr; gap: 62px; }
+    .eyebrow { color: var(--blue); font-size: 22px; font-weight: 700; letter-spacing: 0; }
+    h1 { margin: 18px 0 16px; font-size: 54px; line-height: 1.12; letter-spacing: 0; }
+    .lede { margin: 0; max-width: 625px; font-size: 25px; line-height: 1.55; }
+    .command { margin-top: 35px; width: fit-content; background: var(--ink); color: #fff; padding: 16px 20px; font-family: Consolas, monospace; font-size: 14px; white-space: nowrap; border-radius: 5px; }
+    .proof { margin-top: 25px; display: flex; gap: 22px; align-items: center; color: #59636b; font-size: 18px; }
+    .dot { width: 9px; height: 9px; background: var(--green); display: inline-block; border-radius: 50%; margin-right: 8px; }
+    .card { align-self: center; background: #fff; border: 1px solid var(--line); border-radius: 7px; padding: 29px 31px 25px; box-shadow: 0 10px 0 #dce2e0; }
+    .case-label { color: #65727b; font-size: 18px; }
+    .state { margin-top: 9px; color: var(--green); font-size: 22px; font-weight: 800; }
+    .amount { margin: 25px 0 5px; font-size: 51px; line-height: 1; font-weight: 800; color: var(--red); }
+    .unit { font-size: 19px; color: #4c5860; }
+    .formula { margin: 24px 0 18px; padding-top: 18px; border-top: 1px solid var(--line); font-family: Consolas, "Microsoft YaHei", monospace; font-size: 16px; line-height: 1.65; }
+    .source { font-size: 15px; line-height: 1.45; color: #65727b; }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <div class="eyebrow">CODEX SKILL / 公开资料核算</div>
+      <h1>中国企事业单位<br>待遇研究</h1>
+      <p class="lede">输入一家单位名称，自动检索官方预决算、编制与年报，按专业经验逐步估算。真实数据找不到，就明确说搜不到。</p>
+      <div class="command">npx skills add DYLANYING04/china-public-sector-compensation -g</div>
+      <div class="proof"><span><span class="dot"></span>30 个公开来源样本</span><span>MIT Licensed</span><span>CI Tested</span></div>
+    </section>
+    <aside class="card">
+      <div class="case-label">真实案例 / 中共杨凌示范区工委党校 2024</div>
+      <div class="state">FULL · 同年同口径人数已匹配</div>
+      <div class="amount">11.5424 万</div>
+      <div class="unit">普通员工年度等效估算 · 9,618.69 元/月</div>
+      <div class="formula">(72.45 + 8.99 + 26.44 + 82.57) / 11 × 2/3<br>= 11.5424 万元/年</div>
+      <div class="source">来源：2024 年官方决算公开 06 表与部门人员情况<br>结果为作者方法下的财政口径等效值，不等于到手工资。</div>
+    </aside>
+  </main>
+</body>
+</html>

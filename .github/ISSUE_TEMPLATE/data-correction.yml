@@ -1,0 +1,25 @@
+name: Report a data or scope error
+description: Correct a source, number, unit conversion, or numerator/denominator scope.
+title: "[Data correction]: "
+labels: ["data-correction"]
+body:
+  - type: input
+    id: case
+    attributes:
+      label: Affected case or document
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Correction and official source
+      description: Give the official URL, reporting year, page/table/row, original label, and amount unit.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope impact
+      description: Explain whether this changes entity, year, funding scope, personnel scope, or the calculation.
+    validations:
+      required: true

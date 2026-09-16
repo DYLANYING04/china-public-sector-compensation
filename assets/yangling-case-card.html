@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>杨凌党校 2024 结果卡</title>
+  <style>
+    :root { --ink: #20252b; --paper: #f5f3ed; --blue: #1479b8; --red: #c85a3f; --green: #277b63; --line: #cad3d6; }
+    * { box-sizing: border-box; }
+    body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: var(--paper); color: var(--ink); font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; }
+    main { height: 100%; padding: 50px 62px; }
+    header { display: flex; justify-content: space-between; align-items: start; border-bottom: 2px solid var(--ink); padding-bottom: 22px; }
+    .title { font-size: 38px; font-weight: 800; line-height: 1.2; }
+    .sub { margin-top: 9px; color: #65727b; font-size: 18px; }
+    .state { padding: 9px 13px; background: #dcefe8; color: var(--green); font-weight: 800; border-radius: 5px; }
+    .grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: 46px; padding-top: 32px; }
+    .amount-label { color: #65727b; font-size: 19px; }
+    .amount { margin: 8px 0 10px; color: var(--red); font-size: 59px; font-weight: 800; line-height: 1; }
+    .month { font-size: 21px; }
+    .caveat { margin-top: 26px; font-size: 16px; line-height: 1.5; color: #59636b; }
+    .formula { background: #fff; border: 1px solid var(--line); border-radius: 7px; padding: 24px; font-family: Consolas, "Microsoft YaHei", monospace; font-size: 18px; line-height: 1.8; }
+    .foot { margin-top: 16px; color: #65727b; font-size: 14px; line-height: 1.45; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <div class="title">中共杨凌示范区工委党校 · 2024</div>
+        <div class="sub">公开来源：决算 06 表 + 同年实有人员 11 人</div>
+      </div>
+      <div class="state">FULL</div>
+    </header>
+    <section class="grid">
+      <div>
+        <div class="amount-label">作者方法下普通员工年度等效估算</div>
+        <div class="amount">11.5424 万</div>
+        <div class="month">约 9,618.69 元/月</div>
+        <div class="caveat">这是财政口径的年度/月度等效值，不是税后或到手工资。分母为年末实有人数，已在案例页明确标注。</div>
+      </div>
+      <div>
+        <div class="formula">可比工资 = 72.45 + 8.99 + 26.44 + 82.57<br>= 190.45 万元<br><br>单位人均 = 190.45 / 11 = 17.3136 万元<br>普通员工 = 17.3136 × 2/3 = 11.5424 万元</div>
+        <div class="foot">完整来源、口径和计算过程：github.com/DYLANYING04/china-public-sector-compensation</div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

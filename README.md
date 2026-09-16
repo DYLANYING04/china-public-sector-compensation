@@ -1,32 +1,49 @@
 # 中国企事业单位待遇研究
 
+[![Tests](https://github.com/DYLANYING04/china-public-sector-compensation/actions/workflows/tests.yml/badge.svg)](https://github.com/DYLANYING04/china-public-sector-compensation/actions/workflows/tests.yml)
+[![MIT License](https://img.shields.io/github/license/DYLANYING04/china-public-sector-compensation)](LICENSE)
+[![skills.sh installs](https://skills.sh/b/DYLANYING04/china-public-sector-compensation)](https://skills.sh/DYLANYING04/china-public-sector-compensation)
+
 [English README](README.en.md)
 
-这是一个用于 Codex 的研究 skill：给出一家中国企事业单位的名称，它会搜索公开预算、决算、人员编制、年度报告、绩效报告及相关附件，按图片作者提供的经验逐步核算待遇。
+> 输入一个中国企事业单位名称，自动检索官方报告并按专业经验估算待遇；真实数据找不到，就明确说搜不到。
 
-公开仓库：<https://github.com/DYLANYING04/china-public-sector-compensation>
+![真实案例预览：杨凌党校 2024 FULL 结果](assets/launch-preview.png)
 
-## 安装
+## 一条命令安装
 
-Codex 本地安装（PowerShell）：
+```bash
+npx skills add DYLANYING04/china-public-sector-compensation -g
+```
+
+`-g` 会安装为全局 skill。安装器会自动发现仓库根目录的 `SKILL.md`；动态安装量见上方 skills.sh 徽章。手动克隆仅作为备用方式：
 
 ```powershell
 git clone https://github.com/DYLANYING04/china-public-sector-compensation.git "$env:USERPROFILE\.codex\skills\china-public-sector-compensation"
 ```
 
-如已安装，请在该目录执行 `git pull` 更新。ChatGPT 支持技能的账号可在 `插件 > Skills > Create > Upload from your computer` 上传下载并审查后的技能文件夹；不同产品和工作区的可用性可能不同。
+如已安装，请在该目录执行 `git pull` 更新。ChatGPT 支持技能的账号可上传下载并审查后的技能文件夹；不同产品和工作区的可用性可能不同。
 
-## 最简单的用法
+## 30 秒看到结果
 
-你不需要准备链接、表格、JSON，也不需要判断单位属于哪一类。只发送一句话：
+不需要准备链接、表格、JSON，也不需要判断单位属于哪一类。只发送一句话：
 
 ```text
-研究：某市公共就业服务中心的待遇
+使用 $china-public-sector-compensation，研究“某市公共就业服务中心”的待遇。
 ```
 
-skill 会自动完成单位识别、官方来源搜索、附件读取、口径核对和计算。没有写年份时，默认查最新已完成且能找到的年度；如果最新决算尚未公开，会退到最近可用年度并明确标注。只有在同名单位确实无法区分时，才会向你提一个简短澄清问题。
+它会自动完成单位识别、官方来源搜索、附件读取、口径核对和计算。没有年份时，默认查最新已完成且可核验的年度；同名单位确实无法区分时才提问。
 
-结果开头会直接告诉你三件事：查的是哪家单位和哪一年、证据是否足够、按作者方法得出的结论或缺失字段。后面的来源和计算过程用于复核。
+结果开头直接给出单位/年度、证据状态和结论或缺失字段；后面提供来源和逐步计算，便于复核。
+
+## 可复核的真实案例
+
+- [杨凌示范区工委党校 2024](cases/yangling-party-school-2024.md)：`FULL`，同年实有人数与工资项目匹配，普通员工年度等效估算为 `11.5424 万元`。
+- [南京市佑安医院 2024](cases/nanjing-youan-hospital-2024.md)：`STRUCTURE_ONLY`，展示医院表格中奖金空白且人数不匹配时为何不能硬算。
+- [漠河市融媒体中心 2024](cases/mohe-media-center-2024.md)：偏远县级门户，结构倍数 `1.1861`，并拒绝用旧口径人数相除。
+- [北京市投资促进服务中心（本级）2024](cases/beijing-investment-center-2024.md)：展示北京单位决算本级与部门人数不匹配时的拒算边界。
+
+首发 [30 家单位 Benchmark](benchmark/README.md) 找到 `28/30` 份可用工资拆分，但只有 `1/30` 达到严格的人均 `FULL` 标准。这是刻意保守的结果：宁可保留 `STRUCTURE_ONLY` 或 `搜不到`，也不做跨范围除法。
 
 ## 能做什么
 
@@ -35,16 +52,6 @@ skill 会自动完成单位识别、官方来源搜索、附件读取、口径�
 - 处理 PDF、XLSX、ZIP、扫描件，以及附件预览失败、JavaScript 财政平台或对象存储链接。
 - 同时搜索工资金额和人数证据，核对单位、年度、预算/决算性质、人员范围和金额单位。
 - 数据不足时明确写出 `搜不到`，不使用行业平均数补齐；但会按作者方法对真实报表中已披露的金额作出明确标注的专家判断。
-
-## 调用方式
-
-在 Codex 中直接提供单位名称，例如：
-
-```text
-使用 $china-public-sector-compensation，研究“某市公共就业服务中心”的待遇。
-```
-
-也可以明确要求年份、城市或单位别名。skill 会先确认正式名称和主管部门，再开始检索。
 
 ## 作者的计算方法
 
@@ -161,4 +168,4 @@ GitHub Actions 会在每次推送和拉取请求时自动运行测试。测试�
 
 ## 许可与贡献
 
-本仓库目前未声明开源许可证。仓库公开仅表示内容可查看和 fork，不等于授权复制、修改或分发；仓库所有者应根据期望的复用方式选择许可证。提交新的案例或规则时，请同时提供：原始官方链接、报告年度、表格/页码定位、金额单位、实体范围和可复算的计算式。
+本仓库采用 [MIT License](LICENSE)，允许复用、修改和分发。新增案例、规则或门户路径请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)，并使用 [请求研究单位](https://github.com/DYLANYING04/china-public-sector-compensation/issues/new?template=request-institution.yml)、[报告数据错误](https://github.com/DYLANYING04/china-public-sector-compensation/issues/new?template=data-correction.yml) 或 [新增地区门户](https://github.com/DYLANYING04/china-public-sector-compensation/issues/new?template=portal-pattern.yml) 表单。

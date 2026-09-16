@@ -1,0 +1,32 @@
+name: Add a regional portal pattern
+description: Share a verified government-disclosure route that improves coverage.
+title: "[Portal pattern]: "
+labels: ["portal-pattern"]
+body:
+  - type: input
+    id: region
+    attributes:
+      label: Region and portal owner
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Official portal URL
+      placeholder: https://...
+    validations:
+      required: true
+  - type: textarea
+    id: method
+    attributes:
+      label: Reproducible discovery method
+      description: Give exact query terms, landing-page path, attachment behavior, and any scope pitfalls.
+    validations:
+      required: true
+  - type: checkboxes
+    id: official
+    attributes:
+      label: Confirmation
+      options:
+        - label: I verified that this is an official public source, not a repost or scraped copy.
+          required: true

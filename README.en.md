@@ -1,32 +1,49 @@
 # China Enterprise and Public-Institution Compensation Research
 
+[![Tests](https://github.com/DYLANYING04/china-public-sector-compensation/actions/workflows/tests.yml/badge.svg)](https://github.com/DYLANYING04/china-public-sector-compensation/actions/workflows/tests.yml)
+[![MIT License](https://img.shields.io/github/license/DYLANYING04/china-public-sector-compensation)](LICENSE)
+[![skills.sh installs](https://skills.sh/b/DYLANYING04/china-public-sector-compensation)](https://skills.sh/DYLANYING04/china-public-sector-compensation)
+
 [中文说明](README.md)
 
-This repository contains a Codex skill for researching compensation at Chinese enterprises and public institutions. Give it the name of an organization, and it searches public budgets, final accounts, staffing disclosures, annual reports, performance reports, and official attachments before calculating compensation step by step with the expert method supplied by the user.
+> Enter a Chinese enterprise or public institution name. The skill searches official reports and estimates compensation with a professional method; when the real data is unavailable, it plainly says `搜不到`.
 
-Repository: <https://github.com/DYLANYING04/china-public-sector-compensation>
+![Real case preview: Yangling Party School 2024](assets/launch-preview.png)
 
-## Installation
+## Install in One Command
 
-Install locally for Codex from PowerShell:
+```bash
+npx skills add DYLANYING04/china-public-sector-compensation -g
+```
+
+`-g` installs the skill globally. The installer discovers the root `SKILL.md`; the dynamic install count is shown by the skills.sh badge above. Manual cloning is the fallback:
 
 ```powershell
 git clone https://github.com/DYLANYING04/china-public-sector-compensation.git "$env:USERPROFILE\.codex\skills\china-public-sector-compensation"
 ```
 
-Run `git pull` in that directory to update an existing installation. Eligible ChatGPT accounts can download and review the skill folder, then use `Plugins > Skills > Create > Upload from your computer`. Availability can differ by product and workspace.
+Run `git pull` in that directory to update an existing installation. Availability for skill-folder uploads can differ by product and workspace.
 
-## Simplest Usage
+## See It Work
 
-You do not need to prepare links, spreadsheets, JSON, or choose a calculation route. Send one sentence:
+You do not need links, spreadsheets, JSON, or a calculation-route decision. Send one sentence:
 
 ```text
 Research the compensation of [full institution name] using $china-public-sector-compensation.
 ```
 
-The skill identifies the official entity, searches official sources, reads attachments, reconciles the accounting scope, and performs the calculation. If no year is supplied, it starts with the latest completed fiscal year that can be verified. If the latest final account has not been published, it falls back to the newest usable year and labels that year explicitly. It asks a clarification question only when the name genuinely matches multiple entities.
+The skill identifies the entity, searches official sources, reads attachments, reconciles scope, and calculates. Without a supplied year, it uses the latest completed fiscal year that can be verified. It only asks a question when the name truly identifies multiple entities.
 
-The result starts with three lines: the institution and year, the evidence status, and the conclusion or missing field. The source ledger and calculation details follow for review.
+The result starts with the institution/year, evidence state, and conclusion or missing input. Source ledger and arithmetic follow for review.
+
+## Reproducible Cases
+
+- [Yangling Party School 2024](cases/yangling-party-school-2024.md): `FULL`; same-year staff and wage rows match, with an ordinary-employee annual equivalent of `11.5424 万元`.
+- [Nanjing Youan Hospital 2024](cases/nanjing-youan-hospital-2024.md): `STRUCTURE_ONLY`; demonstrates why a blank bonus cell and unmatched headcount must not be forced into a result.
+- [Mohe Media Center 2024](cases/mohe-media-center-2024.md): a remote county portal, a `1.1861` structure multiple, and a scope-safe refusal to divide by an old denominator.
+- [Beijing Investment Promotion Service Center 2024](cases/beijing-investment-center-2024.md): a Beijing municipal example showing why a unit final account must not be divided by department-wide staff.
+
+The launch [benchmark of 30 public-source inputs](benchmark/README.md) found usable wage breakdowns for `28/30`, but only `1/30` met the strict per-person `FULL` standard. That conservatism is intentional: `STRUCTURE_ONLY` or `搜不到` is preferable to a cross-scope quotient.
 
 ## What It Does
 
@@ -156,4 +173,4 @@ GitHub Actions runs the suite on every push and pull request. The tests cover th
 
 ## License and Contributions
 
-This repository currently declares no open-source license. Public visibility allows viewing and forking but does not by itself grant permission to copy, modify, or distribute the work; the repository owner should choose a license based on the intended reuse. When contributing a new case or rule, include the original official URL, report year, table/page location, amount unit, entity scope, and a reproducible calculation expression.
+This project is available under the [MIT License](LICENSE). To add a case, rule, or regional portal pattern, read [CONTRIBUTING.md](CONTRIBUTING.md), then use the [institution request](https://github.com/DYLANYING04/china-public-sector-compensation/issues/new?template=request-institution.yml), [data correction](https://github.com/DYLANYING04/china-public-sector-compensation/issues/new?template=data-correction.yml), or [portal-pattern](https://github.com/DYLANYING04/china-public-sector-compensation/issues/new?template=portal-pattern.yml) form.
